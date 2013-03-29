@@ -4,7 +4,6 @@ var base_url = 'https://www.coursera.org/maestro/api/topic/list_my?user_id=';
 chrome.cookies.get(request, function(cookie){
 	var user = JSON.parse(decodeURIComponent(cookie.value));
 	base_url +=	user.id;	
-	console.log(base_url);
 	$(document).ready(function(){
 		$.getJSON(base_url, function(data){
 			for (var i = 0; i < data.length; i++) {
