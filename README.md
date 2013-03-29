@@ -3,3 +3,4 @@
 ## Planning Features
 
 * keyboard-shortcut customization
+* courses schedule
