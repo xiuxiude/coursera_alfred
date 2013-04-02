@@ -19,7 +19,7 @@
   "options_page": "src/options_custom/index.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "browser action demo",
+    "default_title": "Your Courses",
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
@@ -27,16 +27,18 @@
     "notifications",
     "tabs",
     "geolocation",
-    "https://www.coursera.org/*"
+    "https://www.coursera.org/*",
+    "https://class.coursera.org/*"
   ],
   "content_scripts": [
     {
       "matches": [
-        "https://www.coursera.org/*"
+        "https://class.coursera.org/*/lecture/index"
       ],
       "js": [
-        "src/inject/inject.js"
-      ]
+        "components/jquery/jquery.min.js", "src/inject/inject.js"
+      ],
+      "run_at": "document_end"
     }
   ]
 }

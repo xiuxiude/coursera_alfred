@@ -1,15 +1,32 @@
 <!doctype html>
-<style type="text/css">
-	#mainPopup { 
-		padding: 10px;
-		height: 200px;
-		width: 400px;
-		font-family: Helvetica, Ubuntu, Arial, sans-serif;
-	}
-</style>
-<script src='/components/jquery/jquery.min.js'></script>
-<script src='./courses.js'></script>
-<body>
-	<h3>Schedule</h3>
-	<ul id="mainPopup"></ul>
-</body>
+<html lang="en" ng-app="app" ng-csp>
+	<head>
+		<meta charset="utf-8">
+		<title>Coursera Alfred</title>
+    <link rel="stylesheet" href="/components/bootstrap-assets/css/bootstrap.min.css">
+		<style>[ng-cloak] {display: none}</style>
+	</head>
+	<body>
+    <section id="courseapp" ng-controller="appCtrl">
+      <div class="row">
+        <div class="span4">
+          <h2>{{title}}</h2>
+          <ul id="course-list">
+            <li ng-repeat="event in events">
+              {{event.course_name}}
+              <br>
+              {{event.home_link}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+		<script src="/components/jquery/jquery.js"></script>
+		<script src="/components/underscore/underscore.js"></script>
+		<script src="/components/angular/angular.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers/appCtrl.js"></script>
+		<script src="js/services/courseService.js"></script>
+
+	</body>
+</html>
