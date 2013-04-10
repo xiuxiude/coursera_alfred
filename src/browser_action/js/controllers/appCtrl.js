@@ -6,6 +6,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, courseService) {
   courseService.getUserId()
   .then(courseService.getAllCourses)
   .then(courseService.getNameAndHome_Link)
+  .then(courseService.getPages)
   .then(courseService.getEvents)
   .then(function(events){
   	$scope.events = events;

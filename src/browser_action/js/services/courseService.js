@@ -27,20 +27,55 @@ app.factory('courseService', function ($http, $q) {
       return deferred.promise;
     },
 
-    getEvents: function(courses_links){
-      return courses_links;
-    },
-
     getNameAndHome_Link: function(data){
-      var courses_links = [],
+      var courses_links = new Array(),
           deferred = $q.defer();
-      data.forEach(function(i){
-        courses_links.push({
-          'course_name' : i.name,
-          'home_link' : i.courses[0].home_link
+      data.forEach(function(item){
+        courses_links.push(
+        {
+          'course_name' : item.name,
+          'home_link' : item.courses[0].home_link
         });
       });
       deferred.resolve(courses_links);
+      return deferred.promise;
+    },
+
+    getPages: function(courses_links){
+      var pages = new Array(),
+          deferred = $q.defer();
+      courses_links.forEach(function(pair){
+        $http.get(pair.home_link)
+             .then(function(response){
+              pages.push(
+              {
+                'course_name' : pair.course_name,
+                'home_page' : response.data
+              });
+             })
+      });
+      deferred.resolve(pages);
+      return deferred.promise;
+    },
+
+    getEvents: function(pages){
+      var deferred = $q.defer(),
+          whole_events = new Array();
+      pages.forEach(function(item){
+        console.log(item);//don't display on screen! what's going on!!!!!
+        var events = $(item.home_page).find('.course-page-sidebar')
+                                           .find('.course-overview-upcoming-category')
+                                           .first()
+                                           .find('.course-overview-upcoming-item');
+        events.forEach(function(evt){
+          whole_events.push(
+          {
+            "event_name" : $(evt).find('a').text(),
+            "event_time" : $(evt).find('time').text()
+          });
+        });
+      });
+      deferred.resolve(whole_events);
       return deferred.promise;
     }
   }
