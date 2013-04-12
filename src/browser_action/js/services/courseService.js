@@ -41,6 +41,7 @@ app.factory('courseService', function ($http, $q) {
       return deferred.promise;
     },
 
+    /**
     getPages: function(courses_links){
       var pages = new Array(),
           deferred = $q.defer();
@@ -55,18 +56,34 @@ app.factory('courseService', function ($http, $q) {
              })
       });
       deferred.resolve(pages);
+      console.log(pages);
       return deferred.promise;
+    },
+    **/
+
+    getPages: function(courses_links){
+      var courses_promises = courses_links.map(function(link){
+        var deferred = $q.defer();
+        $http.get(link.home_link)
+             .then(function(response){
+              deferred.resolve({
+                'course_name' : link.course_name,
+                'home_page' : response.data
+              });
+             });
+        return deferred.promise;
+      });
+      return $q.all(courses_promises);
     },
 
     getEvents: function(pages){
       var deferred = $q.defer(),
           whole_events = new Array();
       pages.forEach(function(item){
-        console.log(item);//don't display on screen! what's going on!!!!!
         var events = $(item.home_page).find('.course-page-sidebar')
-                                           .find('.course-overview-upcoming-category')
-                                           .first()
-                                           .find('.course-overview-upcoming-item');
+                                      .find('.course-overview-upcoming-category')
+                                      .first()
+                                      .find('.course-overview-upcoming-item');
         events.forEach(function(evt){
           whole_events.push(
           {
