@@ -4,14 +4,6 @@ app.factory('courseService', function ($http, $q) {
   var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
   var base_url = "https://www.coursera.org/maestro/api/topic/list_my?user_id=";
   return {
-    getAllCourses: function(user_id){
-      var url = base_url + user_id
-      return $http.get(url)
-                  .then(function(response){
-                    return  response.data;
-                  })
-    },
-    
     getUserId: function(){
       var deferred = $q.defer();
       var user_id;
@@ -26,56 +18,46 @@ app.factory('courseService', function ($http, $q) {
       }
       return deferred.promise;
     },
-
-    getNameAndHome_Link: function(data){
-      var courses_links = new Array(),
-          deferred = $q.defer();
-      data.forEach(function(item){
-        courses_links.push(
-        {
-          'course_name' : item.name,
-          'home_link' : item.courses[0].home_link
-        });
-      });
-      deferred.resolve(courses_links);
-      return deferred.promise;
+    getAllCourses: function(user_id){
+      var url = base_url + user_id
+      return $http.get(url)
+                  .then(function(response){
+                    return response.data;
+                  })
     },
 
-    getPages: function(courses_links){
-      var pages = new Array(),
-          deferred = $q.defer();
-      courses_links.forEach(function(pair){
-        $http.get(pair.home_link)
+    getPages: function(courses){
+      var courses_promoises = courses.filter(function(item){
+        return item.courses[0].home_link;
+      }).map(function(item){
+        var deferred = $q.defer();
+        item["class_link"] = item.courses[0].home_link + "class/index";
+        $http.get(item.class_link)
              .then(function(response){
-              pages.push(
-              {
-                'course_name' : pair.course_name,
-                'home_page' : response.data
-              });
-             })
+               item["html"] = response.data;
+               deferred.resolve(item);
+             });
+        return deferred.promise;
       });
-      deferred.resolve(pages);
-      return deferred.promise;
+      return $q.all(courses_promoises);
     },
 
     getEvents: function(pages){
-      var deferred = $q.defer(),
-          whole_events = new Array();
-      pages.forEach(function(item){
-        console.log(item);//don't display on screen! what's going on!!!!!
-        var events = $(item.home_page).find('.course-page-sidebar')
-                                           .find('.course-overview-upcoming-category')
-                                           .first()
-                                           .find('.course-overview-upcoming-item');
-        events.forEach(function(evt){
-          whole_events.push(
-          {
-            "event_name" : $(evt).find('a').text(),
-            "event_time" : $(evt).find('time').text()
-          });
-        });
+      console.log(pages);
+      var deferred = $q.defer();
+      var events = pages.map(function(item){
+        var raw_html = item.html;
+        var body = '<div id="body-mock">' +
+                   raw_html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') +
+                   '</div>';
+        var events = $(body).find('.course-overview-upcoming-category')
+        item["message"] = events;
+        return item;
+      }).filter(function(item){
+        return item["message"].length > 0;
       });
-      deferred.resolve(whole_events);
+      console.log(events);
+      deferred.resolve(events);
       return deferred.promise;
     }
   }
