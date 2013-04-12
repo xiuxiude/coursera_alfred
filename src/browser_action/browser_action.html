@@ -1,15 +1,41 @@
 <!doctype html>
-<style type="text/css">
-	#mainPopup { 
-		padding: 10px;
-		height: 200px;
-		width: 400px;
-		font-family: Helvetica, Ubuntu, Arial, sans-serif;
-	}
-</style>
-<script src='/components/jquery/jquery.min.js'></script>
-<script src='./courses.js'></script>
-<body>
-	<h3>Schedule</h3>
-	<ul id="mainPopup"></ul>
-</body>
+<html lang="en" ng-app="app" ng-csp>
+  <head>
+    <meta charset="utf-8">
+    <title>Coursera Alfred</title>
+    <link rel="stylesheet" href="/components/bootstrap-assets/css/bootstrap.min.css">
+    <style>[ng-cloak] {display: none}</style>
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+       <div class="navbar-inner">
+         <div class="container">
+           <a class="brand" href="/">Coursera Alfred</a>
+           <div class="nav-collapse">
+             <a class="btn pull-right" href="https://github.com/xiuxiude/coursera_alfred">View Us on Github</a>
+           </div>
+         </div>
+       </div>
+   </div>
+  <div class="container-fluid">
+    <section id="courseapp" ng-controller="appCtrl">
+      <div class="row">
+        <div class="span4">
+          <ul id="course-list">
+            <li ng-repeat="event in events">
+              <h3>{{event.name}}</h3>
+              <div ng-bind-html-unsafe="event['message']"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <script src="/components/jquery/jquery.js"></script>
+    <script src="/components/underscore/underscore.js"></script>
+    <script src="/components/angular/angular.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/appCtrl.js"></script>
+    <script src="js/services/courseService.js"></script>
+  </div>
+  </body>
+</html>
