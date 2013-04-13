@@ -11,9 +11,11 @@ app.factory('courseService', function ($http, $q) {
         deferred.resolve(user_id);
       } else {
         chrome.cookies.get(request, function(cookie){
-          var user = JSON.parse(decodeURIComponent(cookie.value));
-          deferred.resolve(user.id);
-          localStorage.setItem("user_id", user.id)
+          if(cookie){
+            var user = JSON.parse(decodeURIComponent(cookie.value));
+            deferred.resolve(user.id);
+            localStorage.setItem("user_id", user.id)
+          } else window.alert('Please log in coursera first');
         });
       }
       return deferred.promise;
@@ -30,6 +32,7 @@ app.factory('courseService', function ($http, $q) {
       var courses_promoises = new Array();
       courses.forEach(function(item){
         item.courses.forEach(function(i){
+          i.name = item.name;
           courses_promoises.push(i);
         })
       });
@@ -49,12 +52,11 @@ app.factory('courseService', function ($http, $q) {
     },
 
     getEvents: function(pages){
-      console.log(pages);
       var deferred = $q.defer();
       var events = pages.map(function(item){
-        console.log(item);//works prop
+        console.log(item);//works correctly
+        console.log(item.html);//undefined!!!!
         var raw_html = item.html;
-        console.log(raw_html);
         var body = '<div id="body-mock">' +
                    raw_html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') +
                    '</div>';
