@@ -20,6 +20,7 @@ app.factory('courseService', function ($http, $q) {
       }
       return deferred.promise;
     },
+    
     getAllCourses: function(user_id){
       var url = base_url + user_id
       return $http.get(url)

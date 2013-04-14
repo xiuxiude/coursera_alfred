@@ -10,5 +10,6 @@ app.controller('appCtrl', function AlfredCtrl($scope, courseService) {
   .then(courseService.getEvents)
   .then(function(events){
     $scope.events = events;
+    console.log(events);
   });
 });
