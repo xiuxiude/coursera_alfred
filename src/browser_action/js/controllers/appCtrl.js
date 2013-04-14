@@ -3,11 +3,15 @@
 
 app.controller('appCtrl', function AlfredCtrl($scope, courseService) {
   $scope.title = "Course Alfred";
-  courseService.getUserId()
-  .then(courseService.getAllCourses)
-  .then(courseService.getPages)
-  .then(courseService.getEvents)
-  .then(function(events){
-    $scope.events = events;
+  
+  courseService.getCourses().then(function(courses){
+    $scope.courses = courses;
   });
+  // courseService.getUserId()
+  // .then(courseService.getAllCourses)
+  // .then(courseService.getPages)
+  // .then(courseService.getEvents)
+  // .then(function(courses){
+  //   $scope.courses = courses;
+  // });
 });

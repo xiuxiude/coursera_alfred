@@ -7,7 +7,7 @@
     <style>[ng-cloak] {display: none}</style>
   </head>
   <body>
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar">
        <div class="navbar-inner">
          <div class="container">
            <a class="brand" href="/">Coursera Alfred</a>
@@ -22,12 +22,26 @@
       <div class="row">
         <div class="span4">
           <ul id="course-list">
-            <li ng-repeat="event in events">
-              <h3>{{event.name}}</h3>
-              <div ng-bind-html-unsafe="event['message']"></div>
+            <li ng-repeat="course in courses">
+              <h3>{{course.name}}</h3>
+              <ul>
+                <h4>Deadlines</h4>
+                <li ng-repeat="deadline in course.deadlines">
+                  <div ng-bind-html-unsafe="deadline.innerHTML"></div>
+                </li>
+              </ul>
+              
+              <ul>
+                <h4>New Lectures</h4>
+                <li ng-repeat="lecture in course.new_lectures">
+                  <div ng-bind-html-unsafe="lecture.innerHTML"></div>
+                </li>
+              </ul>
+              
             </li>
           </ul>
         </div>
+
       </div>
     </section>
     <script src="/components/jquery/jquery.js"></script>
