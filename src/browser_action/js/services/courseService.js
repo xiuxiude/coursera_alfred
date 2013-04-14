@@ -28,15 +28,21 @@ app.factory('courseService', function ($http, $q) {
                   })
     },
 
-    getPages: function(courses){
-      var courses_promoises = new Array();
+    getAllCoursesOut: function(courses){
+      var deferred = $q.defer(),
+          all_courses =  new Array();
       courses.forEach(function(item){
         item.courses.forEach(function(i){
           i.name = item.name;
-          courses_promoises.push(i);
+          all_courses.push(i);
         })
       });
-      courses_promoises.filter(function(item){
+      deferred.resolve(all_courses);
+      return deferred.promise;
+    },
+
+    getPages: function(courses){
+      var courses_promoises = courses.filter(function(item){
         return item.home_link;
       }).map(function(item){
         var deferred = $q.defer();
@@ -54,8 +60,6 @@ app.factory('courseService', function ($http, $q) {
     getEvents: function(pages){
       var deferred = $q.defer();
       var events = pages.map(function(item){
-        console.log(item);//works correctly
-        console.log(item.html);//undefined!!!!
         var raw_html = item.html;
         var body = '<div id="body-mock">' +
                    raw_html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') +
