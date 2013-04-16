@@ -45,8 +45,12 @@ app.factory('courseService', function ($http, $q) {
   };
 
 
- var getEvents = function(pages){
-    var courses_with_events = pages.map(function(item){
+  var getEvents = function(pages){
+    var events = {
+      deadlines: [],
+      courses: [],
+    };
+    var courses = pages.map(function(item){
       var raw_html = item.html;
       var body = '<div id="body-mock">' +
                  raw_html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') +
@@ -54,17 +58,32 @@ app.factory('courseService', function ($http, $q) {
 
       var $upcomingItems = $(body).find('.course-overview-upcoming-category')
 
-      item["deadlines"] = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
-      item["new_lectures"] = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
+      var deadlines = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
+      var new_lectures = $upcomingItems.eq(1).find('.course-overview-upcoming-item').toArray();
       
+      item["new_lectures"] = new_lectures;
+
       if($upcomingItems.find(".icon-calendar").length > 0) {
         item["calendar"] = item["class_link"] + "calendar/ics";
       }
+      
+      deadlines.forEach(function(deadline){
+        deadline.time = new Date(deadline.children[2].innerHTML);
+        deadline.course = item;
+      })
+      
+      if(deadlines.length > 0) {
+        console.log(deadlines);
+        events.deadlines = events.deadlines.concat(deadlines);
+      }
+
       return item;
     }).filter(function(item){
-      return (item["deadlines"].length > 0 || item["new_lectures"] > 0);
+      return item["new_lectures"].length > 0;
     });
-    return courses_with_events;
+    
+    events.courses = courses;
+    return events;
   };
   
   return {
@@ -77,7 +96,6 @@ app.factory('courseService', function ($http, $q) {
                 getPages
               )
               .then(function(pages){
-                console.log(pages);
                 var events = getEvents(pages);
                 console.log(events);
                 deferred.resolve(events);

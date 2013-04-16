@@ -2,16 +2,8 @@
 'use strict';
 
 app.controller('appCtrl', function AlfredCtrl($scope, courseService) {
-  $scope.title = "Course Alfred";
-  
-  courseService.getCourses().then(function(courses){
-    $scope.courses = courses;
+  courseService.getCourses().then(function(events){
+    $scope.deadlines = events.deadlines;
+    $scope.courses = events.courses;
   });
-  // courseService.getUserId()
-  // .then(courseService.getAllCourses)
-  // .then(courseService.getPages)
-  // .then(courseService.getEvents)
-  // .then(function(courses){
-  //   $scope.courses = courses;
-  // });
 });

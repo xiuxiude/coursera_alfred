@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Coursera Alfred</title>
     <link rel="stylesheet" href="/components/bootstrap-assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
     <style>[ng-cloak] {display: none}</style>
   </head>
   <body>
@@ -21,25 +22,25 @@
     <section id="courseapp" ng-controller="appCtrl">
       <div class="row">
         <div class="span4">
-          <ul id="course-list">
-            <li ng-repeat="course in courses">
-              <h3>{{course.name}}</h3>
-              <ul>
-                <h4>Deadlines</h4>
-                <li ng-repeat="deadline in course.deadlines">
-                  <div ng-bind-html-unsafe="deadline.innerHTML"></div>
-                </li>
-              </ul>
-              
-              <ul>
-                <h4>New Lectures</h4>
-                <li ng-repeat="lecture in course.new_lectures">
-                  <div ng-bind-html-unsafe="lecture.innerHTML"></div>
-                </li>
-              </ul>
-              
+          <h2>Deadlines</h2>
+          <ul id="deadline-list">
+            <li ng-repeat="deadline in deadlines | orderBy:'time' ">
+              <h4>{{deadline.course.name}}</h4>
+              <div class="deadline" ng-bind-html-unsafe="deadline.innerHTML"></div>
             </li>
           </ul>
+
+          <h2>New Lectures</h2>
+          <ul id="course-list">
+             <li ng-repeat="course in courses">
+               <h4>{{course.name}}</h4>
+               <ul>
+                 <li ng-repeat="lecture in course.new_lectures">
+                   <div ng-bind-html-unsafe="lecture.innerHTML"></div>
+                 </li>
+               </ul>
+             </li>
+           </ul>        
         </div>
 
       </div>
