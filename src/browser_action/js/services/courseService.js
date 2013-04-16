@@ -58,14 +58,13 @@ app.factory('courseService', function ($http, $q) {
                  raw_html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') +
                  '</div>';
 
-      var $upcomingItems = $(body).find('.course-overview-upcoming-category');
-      var deadlines = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
-      var new_lectures = $upcomingItems.eq(1).find('.course-overview-upcoming-item').toArray();
-
-      console.log(deadlines);
+      var $upcomingItems = $(body).find('.course-overview-upcoming-category'); 
+      var deadlines = $upcomingItems.slice(0, $upcomingItems.length - 1).find('.course-overview-upcoming-item').toArray();
+      var new_lectures = $upcomingItems.last().find('.course-overview-upcoming-item').toArray();
 
       deadlines.map(function(item){
-        item.time = new Date(item.children[2].innerHTML);
+        if(item.length > 0){
+          item.time = new Date(item.children[2].innerHTML);}
         item.name = course_name;
         return item;
       });
