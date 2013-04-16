@@ -58,12 +58,12 @@ app.factory('courseService', function ($http, $q) {
 
       var $upcomingItems = $(body).find('.course-overview-upcoming-category')
 
-      var deadlines = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
-      var new_lectures = $upcomingItems.eq(1).find('.course-overview-upcoming-item').toArray();
+      var deadlines = $upcomingItems.slice(0, $upcomingItems.length - 1).find('.course-overview-upcoming-item').toArray();
+      var new_lectures = $upcomingItems.last().find('.course-overview-upcoming-item').toArray();
       
       item["new_lectures"] = new_lectures;
 
-      if($upcomingItems.find(".icon-calendar").length > 0) {
+      if($(body).find(".icon-calendar").length > 0) {
         item["calendar"] = item["class_link"] + "calendar/ics";
       }
       
