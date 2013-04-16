@@ -62,9 +62,9 @@ app.factory('courseService', function ($http, $q) {
       var deadlines = $upcomingItems.slice(0, $upcomingItems.length - 1).find('.course-overview-upcoming-item').toArray();
       var new_lectures = $upcomingItems.last().find('.course-overview-upcoming-item').toArray();
 
+
       deadlines.map(function(item){
-        if(item.length > 0){
-          item.time = new Date(item.children[2].innerHTML);}
+        item.time = new Date(item.children[2].innerHTML);
         item.name = course_name;
         return item;
       });
