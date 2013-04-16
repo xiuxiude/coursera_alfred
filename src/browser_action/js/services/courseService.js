@@ -75,7 +75,7 @@ app.factory('courseService', function ($http, $q) {
       container.events.deadlines = container.events.deadlines.concat(deadlines);
       container.events.new_lectures = container.events.new_lectures.concat(new_lectures);
 
-      if($upcomingItems.find(".icon-calendar").length > 0) {
+      if($(body).find(".icon-calendar").length > 0) {
         item["calendar"] = item["class_link"] + "calendar/ics";
       }
       return item;
@@ -97,7 +97,7 @@ app.factory('courseService', function ($http, $q) {
               .then(function(pages){
                 //console.log(pages);
                 var container = getEvents(pages);
-                //console.log(container);
+                console.log(container);
                 var events = container.events;
                 deferred.resolve(events);
               })
