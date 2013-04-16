@@ -4,3 +4,4 @@
 
 * keyboard-shortcut customization
 * multi-download button 
+* courses'schedule

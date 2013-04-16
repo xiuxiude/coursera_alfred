@@ -44,19 +44,38 @@ app.factory('courseService', function ($http, $q) {
     return $q.all(courses_promoises);
   };
 
+  var getEvents = function(pages){
+    var container = {};
+    container.events = {
+      deadlines: [],
+      new_lectures: []
+    };
 
- var getEvents = function(pages){
-    var courses_with_events = pages.map(function(item){
+    container.courses_with_calendar = pages.map(function(item){
+      var course_name = item.name;
       var raw_html = item.html;
       var body = '<div id="body-mock">' +
                  raw_html.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/g, '') +
                  '</div>';
 
-      var $upcomingItems = $(body).find('.course-overview-upcoming-category')
+      var $upcomingItems = $(body).find('.course-overview-upcoming-category');
+      var deadlines = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
+      var new_lectures = $upcomingItems.eq(1).find('.course-overview-upcoming-item').toArray();
 
-      item["deadlines"] = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
-      item["new_lectures"] = $upcomingItems.eq(0).find('.course-overview-upcoming-item').toArray();
-      
+      console.log(deadlines);
+
+      deadlines.map(function(item){
+        item.time = new Date(item.children[2].innerHTML);
+        item.name = course_name;
+        return item;
+      });
+
+      item["deadlines"] = deadlines;
+      item["new_lectures"] = new_lectures;
+
+      container.events.deadlines = container.events.deadlines.concat(deadlines);
+      container.events.new_lectures = container.events.new_lectures.concat(new_lectures);
+
       if($upcomingItems.find(".icon-calendar").length > 0) {
         item["calendar"] = item["class_link"] + "calendar/ics";
       }
@@ -64,7 +83,7 @@ app.factory('courseService', function ($http, $q) {
     }).filter(function(item){
       return (item["deadlines"].length > 0 || item["new_lectures"] > 0);
     });
-    return courses_with_events;
+    return container;
   };
   
   return {
@@ -77,9 +96,10 @@ app.factory('courseService', function ($http, $q) {
                 getPages
               )
               .then(function(pages){
-                console.log(pages);
-                var events = getEvents(pages);
-                console.log(events);
+                //console.log(pages);
+                var container = getEvents(pages);
+                //console.log(container);
+                var events = container.events;
                 deferred.resolve(events);
               })
       return deferred.promise;
