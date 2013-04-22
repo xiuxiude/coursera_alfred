@@ -26,11 +26,12 @@
           <ul id="deadline-list">
             <li ng-repeat="deadline in deadlines | orderBy:'time' ">
               <h4>{{deadline.course.name}}</h4>
-              <div class="deadline" ng-bind-html-unsafe="deadline.innerHTML"></div>
+              <div class="deadline" ng-bind-html-unsafe="deadline.html"></div>
+              <img ng-src="{{deadline.course.icon}}" />
             </li>
           </ul>
 
-          <h2>New Lectures</h2>
+          <!-- <h2>New Lectures</h2>
           <ul id="course-list">
              <li ng-repeat="course in courses">
                <h4>{{course.name}}</h4>
@@ -41,7 +42,7 @@
                </ul>
              </li>
            </ul>        
-        </div>
+        </div> -->
 
       </div>
     </section>
