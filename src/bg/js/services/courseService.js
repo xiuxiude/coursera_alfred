@@ -60,7 +60,7 @@ app.factory('courseService', function ($http, $q) {
 
       var $sidebar = $(body).find('.course-page-sidebar');
 
-      // deadlines and new lectures are separate by a <hr>
+      // deadlines and new lectures are separated by a <hr>
 
       var $hr = $sidebar.find("hr");
       var $deadlineCcontainer = $hr.prevAll('.course-overview-upcoming-category')
