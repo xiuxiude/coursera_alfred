@@ -6,7 +6,7 @@ app.factory('courseService', function ($http, $q) {
   var getUserId = function(){
     var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
     
-    var deferred = $q.defer();
+    var deferred = $.Deferred();
     var user_id;
     if(user_id = localStorage.getItem("user_id")) {
       deferred.resolve(user_id);
@@ -17,14 +17,14 @@ app.factory('courseService', function ($http, $q) {
         localStorage.setItem("user_id", user.id)
       });
     }
-    return deferred.promise;
+    return deferred.promise();
   };
 
   var getAllCourses = function(user_id){
     var url = base_url + user_id;
-    return $http.get(url)
+    return $.get(url)
                 .then(function(response){
-                  return response.data;
+                  return response;
                 })
   };
 
@@ -32,17 +32,17 @@ app.factory('courseService', function ($http, $q) {
     var courses_promoises = courses.filter(function(item){
       return item.courses[0].home_link;
     }).map(function(item){
-      var deferred = $q.defer();
+      var deferred = $.Deferred();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
-      $http.get(item.home_link)
+      $.get(item.home_link)
            .then(function(response){
              item["html"] = response.data;
              deferred.resolve(item);
            });
-      return deferred.promise;
+      return deferred.promise();
     });
-    return $q.all(courses_promoises);
+    return $.when.apply(null, courses_promoises);
   };
 
 
@@ -106,7 +106,7 @@ app.factory('courseService', function ($http, $q) {
   };
   
   var getCourses =  function(){
-    var deferred = $q.defer();
+    var deferred = $.Deferred();
     getUserId().then(
               getAllCourses
             )
@@ -118,7 +118,7 @@ app.factory('courseService', function ($http, $q) {
               console.log(events);
               deferred.resolve(events);
             })
-    return deferred.promise;
+    return deferred.promise();
   }
   
   return {
