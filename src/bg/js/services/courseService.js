@@ -6,7 +6,7 @@ app.factory('courseService', function ($http, $q) {
   var getUserId = function(){
     var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
     
-    var deferred = $.Deferred();
+    var deferred = Q.defer();
     var user_id;
     if(user_id = localStorage.getItem("user_id")) {
       deferred.resolve(user_id);
@@ -17,7 +17,7 @@ app.factory('courseService', function ($http, $q) {
         localStorage.setItem("user_id", user.id)
       });
     }
-    return deferred.promise();
+    return deferred.promise;
   };
 
   var getAllCourses = function(user_id){
@@ -32,22 +32,21 @@ app.factory('courseService', function ($http, $q) {
     var courses_promoises = courses.filter(function(item){
       return item.courses[0].home_link;
     }).map(function(item){
-      var deferred = $.Deferred();
+      var deferred = Q.defer();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
       $.get(item.home_link)
            .then(function(response){
-             item["html"] = response.data;
+             item["html"] = response;
              deferred.resolve(item);
            });
-      return deferred.promise();
+      return deferred.promise;
     });
-    return $.when.apply(null, courses_promoises);
+    return Q.all(courses_promoises);
   };
 
 
   var getEvents = function(pages){
-    console.log(pages);
     var events = {
       deadlines: [],
       courses: [],
@@ -92,7 +91,6 @@ app.factory('courseService', function ($http, $q) {
       });
       
       if (deadline_objects.length > 0) {
-        console.log(deadline_objects);
         events.deadlines = events.deadlines.concat(deadline_objects);
       }
 
@@ -101,12 +99,12 @@ app.factory('courseService', function ($http, $q) {
       return item["new_lectures"].length > 0;
     });
     
-    // events.courses = courses;
+    events.courses = courses;
     return events;
   };
   
   var getCourses =  function(){
-    var deferred = $.Deferred();
+    var deferred = Q.defer();
     getUserId().then(
               getAllCourses
             )
@@ -118,7 +116,7 @@ app.factory('courseService', function ($http, $q) {
               console.log(events);
               deferred.resolve(events);
             })
-    return deferred.promise();
+    return deferred.promise;
   }
   
   return {
