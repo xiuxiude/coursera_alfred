@@ -6,13 +6,18 @@ h4 {
   font-size: 12px;
 }
 
-.deadline {
-  font-size: 11px;
+#deadline-list h4 {
+  width: 160px;
+  float: right;
+  margin-top: -3px;
 }
 
-.deadline img {
+.deadline {
+ font-size: 11px;
+}
+
+img {
   width: 100px;
-  float: right;
 }
 
 .navbar {
