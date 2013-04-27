@@ -8,6 +8,7 @@
     "underscore": "~1.4.4",
     "angular": "~1.0.5",
     "bootstrap-assets": "~2.3.1",
+    "moment": "~2.0.0",
     "q": "lastest"
   },
   "devDependencies": {}

@@ -68,30 +68,37 @@ app.factory('courseService', function ($http, $q) {
       var deadlines = $deadlineCcontainer
                       .find('.course-overview-upcoming-item')
                       .toArray();
-      var new_lectures = $newLecturesContainer
+      var newLectures = $newLecturesContainer
                         .find('.course-overview-upcoming-item')
                         .toArray();
       
-      item["new_lectures"] = new_lectures;
+      item["new_lectures"] = newLectures;
 
       if($sidebar.find(".icon-calendar").length > 0) {
         item["calendar"] = item["class_link"] + "calendar/ics";
       }
       
-      var deadline_objects = deadlines.map(function(deadline){
+      var deadlineObjects = deadlines.map(function(deadline){
+        var $deadline = $(deadline);
+        var $deadlineItem = $deadline.find('time');
         var object  = { 
-          "html": $(deadline).html()
-        };
-        object.time = new Date($(deadline).find(".course-assignment-deadline").text());
-        object.course = {
-          "name": item.name,
-          "icon": item.small_icon
+          "html": $deadline.html(),
+          "title": $deadlineItem.data("event-title"),
+          "link": $deadlineItem.data("event-location"),
+          "description": $deadlineItem.data("event-description"),
+          "time": new Date(
+            $deadline.find(".course-assignment-deadline").text()
+          ),
+          "course": {
+            "name": item.name,
+            "icon": item.small_icon
+          }
         };
         return object;
       });
       
-      if (deadline_objects.length > 0) {
-        events.deadlines = events.deadlines.concat(deadline_objects);
+      if (deadlineObjects.length > 0) {
+        events.deadlines = events.deadlines.concat(deadlineObjects);
       }
 
       return item;

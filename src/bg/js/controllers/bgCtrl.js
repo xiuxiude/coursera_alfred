@@ -1,26 +1,27 @@
-/*global todomvc */
 'use strict';
 
-app.controller('bgCtrl', function AlfredCtrl($scope, courseService) {
-	var a = courseService;
+// set deadlines to empty array when user install the extension
+chrome.runtime.onInstalled.addListener(function() {
+  localStorage.setItem("deadlines", "[]")
+});
 
-	var setLocal = function(){
-		courseService.getCourses().then(function(events){
-			console.log("fired inside of getCourses()");
-			localStorage.setItem("deadlines", JSON.stringify(events.deadlines));
-		});
-	};
+app.controller('bgCtrl', function BgCtrl($scope, courseService) {
+  var updateData = function(){
+    courseService.getCourses().then(function(events){
+      localStorage.setItem("deadlines", JSON.stringify(events.deadlines));
+    });
+  };
+  
+  // init
+  updateData();
+  
+  // update the data every 60 mintues
+  var interval = 60;
+  chrome.alarms.create("scheduleRewquest", {periodInMinutes: interval});
 
-	setLocal();//initialize
-
-	var delay = 1;
-
-	chrome.alarms.create("scheduleRequest", {periodInMinutes: delay});
-
-	chrome.alarms.onAlarm.addListener(function(alarm){
-		if(alarm.name = "scheduleRequest"){
-			console.log("fired out of setLocal()");
-			setLocal();
-		}
-	})
+  chrome.alarms.onAlarm.addListener(function(alarm){
+    if(alarm.name = "scheduleRequest"){
+      updateData();
+    }
+  })
 });

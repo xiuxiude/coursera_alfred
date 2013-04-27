@@ -10,6 +10,11 @@ h4 {
   font-size: 11px;
 }
 
+.deadline img {
+  width: 100px;
+  float: right;
+}
+
 .navbar {
 	margin-bottom: 0px;
 }

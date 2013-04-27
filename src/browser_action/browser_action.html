@@ -13,7 +13,7 @@
          <div class="container">
            <a class="brand" href="/">Coursera Alfred</a>
            <div class="nav-collapse">
-             <a class="btn pull-right" href="https://github.com/xiuxiude/coursera_alfred">View Us on Github</a>
+             <!-- <a class="btn pull-right" href="https://github.com/xiuxiude/coursera_alfred">View Us on Github</a> -->
            </div>
          </div>
        </div>
@@ -23,11 +23,20 @@
       <div class="row">
         <div class="span4">
           <h2>Deadlines</h2>
-          <ul id="deadline-list">
+          <div class="alert alert-block" ng-show="!deadlines.length">
+            <h4>我们正在努力加载，或许你没有任何deadlines。</h4>
+          </div>
+          
+          <ul id="deadline-list" ng-show="deadlines.length">
             <li ng-repeat="deadline in deadlines | orderBy:'time' ">
               <h4>{{deadline.course.name}}</h4>
-              <div class="deadline" ng-bind-html-unsafe="deadline.html"></div>
-              <img ng-src="{{deadline.course.icon}}" />
+              <div class="deadline">
+                <a ng-click="openDeadlineInNewTab(deadline)">
+                  {{deadline.title}}
+                </a>
+                <p><time>{{deadline.time|from_now}}</time></p>
+                <img ng-src="{{deadline.course.icon}}" />
+              </div>  
             </li>
           </ul>
 
@@ -46,13 +55,14 @@
 
       </div>
     </section>
-    <script src="js/link.js"></script>
     <script src="/components/jquery/jquery.js"></script>
     <script src="/components/underscore/underscore.js"></script>
+    <script src="/components/moment/moment.js"></script>
     <script src="/components/angular/angular.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/appCtrl.js"></script>
     <script src="js/services/courseService.js"></script>
+    <script src="js/filters/fromNow.js"></script>
   </div>
   </body>
 </html>
