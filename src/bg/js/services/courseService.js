@@ -6,7 +6,7 @@ app.factory('courseService', function ($http, $q) {
   var getUserId = function(){
     var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
     
-    var deferred = $q.defer();
+    var deferred = Q.defer();
     var user_id;
     if(user_id = localStorage.getItem("user_id")) {
       deferred.resolve(user_id);
@@ -22,9 +22,9 @@ app.factory('courseService', function ($http, $q) {
 
   var getAllCourses = function(user_id){
     var url = base_url + user_id;
-    return $http.get(url)
+    return $.get(url)
                 .then(function(response){
-                  return response.data;
+                  return response;
                 })
   };
 
@@ -32,22 +32,21 @@ app.factory('courseService', function ($http, $q) {
     var courses_promoises = courses.filter(function(item){
       return item.courses[0].home_link;
     }).map(function(item){
-      var deferred = $q.defer();
+      var deferred = Q.defer();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
-      $http.get(item.home_link)
+      $.get(item.home_link)
            .then(function(response){
-             item["html"] = response.data;
+             item["html"] = response;
              deferred.resolve(item);
            });
       return deferred.promise;
     });
-    return $q.all(courses_promoises);
+    return Q.all(courses_promoises);
   };
 
 
   var getEvents = function(pages){
-    console.log(pages);
     var events = {
       deadlines: [],
       courses: [],
@@ -60,7 +59,7 @@ app.factory('courseService', function ($http, $q) {
 
       var $sidebar = $(body).find('.course-page-sidebar');
 
-      // deadlines and new lectures are separate by a <hr>
+      // deadlines and new lectures are separated by a <hr>
 
       var $hr = $sidebar.find("hr");
       var $deadlineCcontainer = $hr.prevAll('.course-overview-upcoming-category')
@@ -92,7 +91,6 @@ app.factory('courseService', function ($http, $q) {
       });
       
       if (deadline_objects.length > 0) {
-        console.log(deadline_objects);
         events.deadlines = events.deadlines.concat(deadline_objects);
       }
 
@@ -101,12 +99,12 @@ app.factory('courseService', function ($http, $q) {
       return item["new_lectures"].length > 0;
     });
     
-    // events.courses = courses;
+    events.courses = courses;
     return events;
   };
   
   var getCourses =  function(){
-    var deferred = $q.defer();
+    var deferred = Q.defer();
     getUserId().then(
               getAllCourses
             )
