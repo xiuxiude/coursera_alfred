@@ -12,14 +12,15 @@ h4 {
   margin-top: -3px;
 }
 
-.deadline {
- font-size: 11px;
-}
-
-img {
+.deadline img {
   width: 100px;
+  margin-right: 20px;
+  float: right;
+}
+.deadline time {
+  font-size: 20px;
 }
 
 .navbar {
-	margin-bottom: 0px;
+ margin-bottom: 0px;
 }

@@ -24,16 +24,17 @@
         <div class="span4">
           <h2>Deadlines</h2>
           <div class="alert alert-block" ng-show="!deadlines.length">
-            <h4>我们正在努力加载，或许你没有任何deadlines。</h4>
+            <h4>我们正在努力加载，或许你没有任何deadlines。你可以稍后回来试试......</h4>
           </div>
           
-          <ul id="deadline-list" ng-show="deadlines.length">
-            <li ng-repeat="deadline in deadlines | orderBy:'time' ">
+          <ul class="unstyled" id="deadline-list" ng-show="deadlines.length">
+            <li class="deadline" ng-repeat="deadline in deadlines | orderBy:'time' ">
 
-              <img ng-src="{{deadline.course.icon}}" />
-              <h4>{{deadline.course.name}}</h4>
-              <div class="deadline">
+              <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
+              <!-- <h4>{{deadline.course.name}}</h4> -->
+              <div>
                 <p>
+                  <i class="icon-time"></i>
                   <time>{{deadline.time|from_now}}</time>
                 </p>
                 <a ng-click="openDeadlineInNewTab(deadline)">
