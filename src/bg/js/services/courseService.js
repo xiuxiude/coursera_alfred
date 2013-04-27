@@ -86,9 +86,7 @@ app.factory('courseService', function ($http, $q) {
           "title": $deadlineItem.data("event-title"),
           "link": $deadlineItem.data("event-location"),
           "description": $deadlineItem.data("event-description"),
-          "time": new Date(
-            $deadline.find(".course-assignment-deadline").text()
-          ),
+          "time": new Date($deadline.find(".course-assignment-deadline").text()),
           "course": {
             "name": item.name,
             "icon": item.small_icon
@@ -96,6 +94,7 @@ app.factory('courseService', function ($http, $q) {
         };
         return object;
       });
+
       
       if (deadlineObjects.length > 0) {
         events.deadlines = events.deadlines.concat(deadlineObjects);
