@@ -8,7 +8,6 @@ chrome.runtime.onInstalled.addListener(function() {
 app.controller('bgCtrl', function BgCtrl($scope, courseService) {
   var updateData = function(){
     courseService.getCourses().then(function(events){
-      console.log(events);
       localStorage.setItem("events", JSON.stringify(events));
     });
   };
