@@ -1,10 +1,4 @@
 {
-  /*
-    Comments work here too!  Sweet, they didn't always...
-    Eventually, I'd like to localize the whole extension.
-    But not quite yet, as Chrome requires a reload to get new messages.json data.
-  */
-  // v---- localization tab entries ----v
   "l10nTabName": {
     "message":"Localization"
     ,"description":"name of the localization tab"
