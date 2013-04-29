@@ -105,7 +105,7 @@ app.factory('courseService', function ($http, $q) {
       return item["new_lectures"].length > 0;
     });
     
-    events.courses = courses;
+    // events.courses = courses;
     return events;
   };
   
@@ -119,7 +119,6 @@ app.factory('courseService', function ($http, $q) {
             )
             .then(function(pages){
               var events = getEvents(pages);
-              console.log(events);
               deferred.resolve(events);
             })
     return deferred.promise;

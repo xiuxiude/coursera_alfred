@@ -1,10 +1,11 @@
 /*global todomvc */
 'use strict';
 app.controller('appCtrl', function AlfredCtrl($scope, courseService) {
-  var deadlines = JSON.parse(localStorage["deadlines"]);
+  var events. = JSON.parse(localStorage["events"]);
 
-  $scope.deadlines = deadlines;
-  
+  $scope.deadlines = events.deadlines;
+  $scope.no_deadlines = events.new && events.deadline
+
   $scope.openDeadlineInNewTab = function(deadline){
     chrome.tabs.create({'url': deadline.link});
   };

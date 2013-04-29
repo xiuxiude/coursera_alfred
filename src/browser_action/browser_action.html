@@ -23,8 +23,19 @@
       <div class="row">
         <div class="span4">
           <h2>Deadlines</h2>
-          <div class="alert alert-block" ng-show="!deadlines.length">
-            <h4>我们正在努力加载，或许你没有任何deadlines。你可以稍后回来试试......</h4>
+          <div class="alert alert-success" ng-show="new">
+            <p>
+              I'm trying really to pulling your coursera data...please wait
+            </p>
+            <div class="progress progress-striped active">
+              <div class="bar" style="width: 40%;"></div>
+            </div>
+          </div>
+          
+          <div class="alert alert-success" ng-hide="deadline.length">
+            <p>
+              You have no deadline left;)
+            </p>
           </div>
           
           <ul class="unstyled" id="deadline-list" ng-show="deadlines.length">
