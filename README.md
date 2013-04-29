@@ -8,7 +8,7 @@
 ## Features
 
 * courses'schedule
-* multi-download button(under constrution)
+* multi-download button(under construction)
 
 ##Todos
 
