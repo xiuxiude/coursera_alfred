@@ -25,7 +25,7 @@ $(document).on("click", "button.alfred", function (e) {
   .each(function(index, elem){
     setTimeout(function(){
       elem.click();
-    }, index*1000);
+    }, 1000);
   });
 });
 
