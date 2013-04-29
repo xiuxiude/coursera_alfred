@@ -2,7 +2,7 @@
 
 // set deadlines to empty array when user install the extension
 chrome.runtime.onInstalled.addListener(function() {
-  localStorage.setItem("events", "{'new':1")
+  localStorage.setItem("events", "{'new':1}")
 });
 
 app.controller('bgCtrl', function BgCtrl($scope, courseService) {
