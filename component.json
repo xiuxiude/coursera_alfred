@@ -2,10 +2,7 @@
   "name": "coursera_alfred",
   "version": "0.0.1",
   "dependencies": {
-    "modernizr": "~2.6.2",
     "jquery": "~1.9.1",
-    "jquery.cookie": "~1.3.1",
-    "underscore": "~1.4.4",
     "angular": "~1.0.5",
     "bootstrap-assets": "~2.3.1",
     "moment": "~2.0.0",
