@@ -3,7 +3,8 @@
 ![screenshots](http://f.cl.ly/items/3Y1Y2c2p3i392J1P0z2h/Screenshot_4_29_13_10_49_PM-2.jpg) 
 
 ## What is this
- Coursera Alfred is an all-in-one chrome extension for coursera.
+
+Coursera Alfred is an all-in-one chrome extension for coursera.
 
 ## Features
 
@@ -13,6 +14,8 @@
 ##Todos
 
 * keyboard-shortcut customization
+* browser notifcation of upcoming deadlines
+* auto sync courses calendar to third party calendar account
 
 ##Development
 
