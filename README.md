@@ -21,8 +21,8 @@ Coursera Alfred is an all-in-one chrome extension for coursera.
 
 * install node.js and npm first
 * run `npm install -g bower` to install bower
-* `bower install` to install components for developing
-* you are on your way~ 
+* `bower install` to install dependencies for developing
+* start coding
 
 ##Contributor
 
@@ -32,7 +32,9 @@ Coursera Alfred is an all-in-one chrome extension for coursera.
 
 ##Feedback
 
-please pull request your issues to improve this project, thanks a lot;)
+Use github to open a issue if you have any problem or feature request.
+
+Pull requests are welcome;)
 
 ##License
 
