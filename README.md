@@ -23,21 +23,28 @@ Coursera Alfred is an all-in-one chrome extension for coursera.
 
 ##For Developer
 
-* coursera alfred developed with [angluarJS](http://angularjs.org/), so you need to understand some thing about it fo r better developing.
-* also you are supposed to get some knowledge of [chrome extension api](http://developer.chrome.com/extensions/).
+* oursera alfred is developed with [angluarJS](http://angularjs.org/), so you need to understand some thing about it for better developing.
+
+* Also you are supposed to have some knowledge of [chrome extension api](http://developer.chrome.com/extensions/).
+
+* We use Kris Kowal's [Promise](http://wiki.commonjs.org/wiki/Promises) implementation [Q](https://github.com/kriskowal/q) to deal with async code.
+
 
 Setup
 
-* install node.js and npm first
-* run `npm install -g bower` to install bower
-* `bower install` to install dependencies for developing
+* install [node.js](http://nodejs.org/) and [npm](https://npmjs.org/) first
+* we use [bower](http://bower.io/) as our client-side package manager, run `npm install -g bower` to install bower
+* `bower install` to install all the dependencies
 
 Ackownledgement
 
-* Here are three main folders in `./coursera_alfred/src`.There are `bg`, `browser_action` and `inject`.
-* `bg` stands for background page, which is always running at backgroud. we use it to fetch data from coursera, parse data and then store parsed data at localstorage.
-* `browser_action` is made for courses'schedule feature, it only has the ablity to fetch data from localstorage since we stored data which we want at localstorage.
-* The `inject` subfolder is for 'multi-download' feture. 
+* Here are three main folders in `./src`.There are `bg`, `browser_action` and `inject`.
+
+* `bg` stands for background page, which is always running at backgroud. We use it to fetch data from coursera, parse data and then store parsed data at localStorage.
+
+* `browser_action` is the popup window when you click the extension icon, which fetch the data from localStorage .
+
+* The `inject` is for all the content-script running in the context of Coursera's own page. Currently, there is only the multi-download button inject in the Coursera course page.
 
 ##Contributor
 
