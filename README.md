@@ -60,6 +60,4 @@ Pull requests are welcome;)
 
 ##License
 
-Coursera Alfred is under MIT license
-
-* [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
+Coursera Alfred is released under the [MIT License](http://opensource.org/licenses/MIT).
