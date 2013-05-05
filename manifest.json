@@ -9,6 +9,7 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
+  "minimum_chrome_version": "22",
   "default_locale": "en",
   "background": {
     "page": "src/bg/bg.html",
