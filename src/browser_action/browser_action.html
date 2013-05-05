@@ -32,25 +32,29 @@
             </div>
           </div>
           
-          <div class="alert alert-success" ng-hide="new || deadlines.length">
+          <div class="alert alert-success" ng-hide="new || deadlines.$filter({'done': false}).length">
             <p>
               You have no deadline left;)
             </p>
           </div>
           
           <ul class="unstyled" id="deadline-list" ng-show="deadlines.length">
-            <li class="deadline" ng-repeat="deadline in deadlines | orderBy:'time' ">
-
-              <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
-              <!-- <h4>{{deadline.course.name}}</h4> -->
+            <li class="deadline" ng-repeat="deadline in deadlines.$filter({'done': false}) | filter: 'hide_deadline' | orderBy:'time' ">
               <div>
+                <!-- <h4>{{deadline.course.name}}</h4> --> 
                 <p>
                   <i class="icon-time"></i>
                   <time>{{deadline.time|from_now}}</time>
                 </p>
+                <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
                 <a ng-click="openDeadlineInNewTab(deadline)">
                   {{deadline.title}}
                 </a>
+              </div>
+              <br/> 
+              <div class="btn-group">
+                <button class="btn" ng-click="removeDeadline()">complete</button>
+                <button class="btn" ng-click="removeDeadline()">ignore</button>
               </div>
               <hr/>  
             </li>
@@ -71,6 +75,7 @@
 
       </div>
     </section>
+    <script src="/components/q/q.js"></script>
     <script src="/components/jquery/jquery.js"></script>
     <script src="/components/moment/moment.js"></script>
     <script src="/components/angular/angular.js"></script>
@@ -78,6 +83,6 @@
     <script src="js/controllers/appCtrl.js"></script>
     <script src="js/services/courseService.js"></script>
     <script src="js/filters/fromNow.js"></script>
-  </div>
+    </div>
   </body>
 </html>

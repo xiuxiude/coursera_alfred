@@ -81,7 +81,8 @@ app.factory('courseService', function ($http, $q) {
       var deadlineObjects = deadlines.map(function(deadline){
         var $deadline = $(deadline);
         var $deadlineItem = $deadline.find('time');
-        var object  = { 
+        var object  = {
+          "done": false,//when a deadline is completed or ingored, set 'done' to true.
           "html": $deadline.html(),
           "title": $deadlineItem.data("event-title"),
           "link": $deadlineItem.data("event-location"),
@@ -119,6 +120,7 @@ app.factory('courseService', function ($http, $q) {
             )
             .then(function(pages){
               var events = getEvents(pages);
+              console.log(events);
               deferred.resolve(events);
             })
     return deferred.promise;
