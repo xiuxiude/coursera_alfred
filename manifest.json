@@ -1,6 +1,6 @@
 {
   "name": "Coursera Alfred",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "manifest_version": 2,
   "description": "Your Coursera Helper",
   "homepage_url": "http://www.xiuxiu.de/",
@@ -14,7 +14,6 @@
     "page": "src/bg/bg.html",
     "persistent": true
   },
-  "options_page": "src/options_custom/index.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
     "default_title": "Your Courses",
