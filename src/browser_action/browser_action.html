@@ -32,14 +32,20 @@
             </div>
           </div>
           
-          <div class="alert alert-success" ng-hide="new || hideRemovedDeadline(deadlines).length">
+          <div 
+            class="alert alert-success"
+            ng-hide="new || (deadlines).length"
+          >
             <p>
               You have no deadline left;)
             </p>
           </div>
           
-          <ul class="unstyled" id="deadline-list" ng-show="hideRemovedDeadline(deadlines).length">
-            <li class="deadline" ng-repeat="deadline in hideRemovedDeadline(deadlines) | orderBy:'time' ">
+          <ul class="unstyled" id="deadline-list" ng-show="deadlines.length">
+            <li
+              class="deadline"
+              ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
+            >
 
               <!-- <h4>{{deadline.course.name}}</h4> -->
               <div>
@@ -53,8 +59,12 @@
                 </a>
                 <p></p>
                 <div class="btn-group">
-                  <button class="btn" ng-click="removeDeadline(deadline)">complete</button>
-                  <button class="btn" ng-click="removeDeadline(deadline)">ignore</button>
+                  <button class="btn" ng-click="removeDeadline(deadline,'complete')">
+                    complete
+                  </button>
+                  <button class="btn" ng-click="removeDeadline(deadline, 'ignore')">
+                    ignore
+                  </button>
                 </div>
               </div>
               <hr/>  
@@ -81,8 +91,9 @@
     <script src="/components/angular/angular.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/appCtrl.js"></script>
-    <script src="js/services/courseService.js"></script>
+    <script src="js/services/courseStorage.js"></script>
     <script src="js/filters/fromNow.js"></script>
+    <script src="js/filters/hide.js"></script>
   </div>
   </body>
 </html>

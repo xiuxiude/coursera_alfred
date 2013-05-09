@@ -3,17 +3,11 @@
 // set deadlines to empty array when user install the extension
 chrome.runtime.onInstalled.addListener(function() {
   localStorage.setItem("events", '{"new":1}');
-  localStorage.setItem("rmed_deadlines", "[]");
 });
 
 app.controller('bgCtrl', function BgCtrl($scope, courseService) {
   var updateData = function(){
     courseService.getCourses().then(function(events){
-      var rmed_deadlines = JSON.parse(localStorage.getItem("rmed_deadlines"))
-                               .filter(function(rmed_deadline){
-                                  return moment().isBefore(rmed_deadline.time);
-                                });
-      localStorage.setItem("rmed_deadlines", JSON.stringify(rmed_deadlines));
       localStorage.setItem("events", JSON.stringify(events));
     });
   };
