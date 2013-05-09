@@ -32,25 +32,30 @@
             </div>
           </div>
           
-          <div class="alert alert-success" ng-hide="new || deadlines.length">
+          <div class="alert alert-success" ng-hide="new || hideRemovedDeadline(deadlines).length">
             <p>
               You have no deadline left;)
             </p>
           </div>
           
-          <ul class="unstyled" id="deadline-list" ng-show="deadlines.length">
-            <li class="deadline" ng-repeat="deadline in deadlines | orderBy:'time' ">
+          <ul class="unstyled" id="deadline-list" ng-show="hideRemovedDeadline(deadlines).length">
+            <li class="deadline" ng-repeat="deadline in hideRemovedDeadline(deadlines) | orderBy:'time' ">
 
-              <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
               <!-- <h4>{{deadline.course.name}}</h4> -->
               <div>
                 <p>
                   <i class="icon-time"></i>
                   <time>{{deadline.time|from_now}}</time>
                 </p>
+                <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
                 <a ng-click="openDeadlineInNewTab(deadline)">
                   {{deadline.title}}
                 </a>
+                <p></p>
+                <div class="btn-group">
+                  <button class="btn" ng-click="removeDeadline(deadline)">complete</button>
+                  <button class="btn" ng-click="removeDeadline(deadline)">ignore</button>
+                </div>
               </div>
               <hr/>  
             </li>
