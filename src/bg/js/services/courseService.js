@@ -99,7 +99,7 @@ app.factory('courseService', function ($http, $q) {
           "title": $deadlineItem.data("event-title"),
           "link": $deadlineItem.data("event-location"),
           "description": $deadlineItem.data("event-description"),
-          "time": moment(dateString),
+          "time": new Date(dateString),
           "course": {
             "name": item.name,
             "icon": item.small_icon
