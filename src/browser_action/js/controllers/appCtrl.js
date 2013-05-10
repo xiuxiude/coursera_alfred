@@ -1,16 +1,14 @@
 /*global todomvc */
 'use strict';
-app.controller('appCtrl', function AlfredCtrl($scope, courseStorage) {
-  var events = JSON.parse(localStorage["events"]);
+app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage) {
   
-  $scope.deadlines = events.deadlines;
-  $scope.new = events.new;
+  $scope.deadlines = alfredStorage.getDeadlines();
+  $scope.new = alfredStorage.isNew();
 
-
-  var removedDeadlines = $scope.removedDeadlines = courseStorage.get();
+  var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   
   $scope.$watch('removedDeadlines', function () {
-    courseStorage.put(removedDeadlines);
+    alfredStorage.putRemoved(removedDeadlines);
   }, true);
   
   $scope.openDeadlineInNewTab = function(deadline){

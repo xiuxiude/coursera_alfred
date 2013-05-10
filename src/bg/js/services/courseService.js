@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('courseService', function ($http, $q) {
+app.factory('courseService', function ($http, $q, alfredStorage) {
   var base_url = "https://www.coursera.org/maestro/api/topic/list_my?user_id=";
   
   var getUserId = function(){
@@ -8,13 +8,13 @@ app.factory('courseService', function ($http, $q) {
     
     var deferred = Q.defer();
     var user_id;
-    if(user_id = localStorage.getItem("user_id")) {
+    if(user_id = alfredStorage.getUserID() ) {
       deferred.resolve(user_id);
     } else {
       chrome.cookies.get(request, function(cookie){
         var user = JSON.parse(decodeURIComponent(cookie.value));
         deferred.resolve(user.id);
-        localStorage.setItem("user_id", user.id)
+        alfredStorage.setUserID(user.id)
       });
     }
     return deferred.promise;

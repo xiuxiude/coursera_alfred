@@ -13,7 +13,6 @@
          <div class="container">
            <a class="brand" href="/">Coursera Alfred</a>
            <div class="nav-collapse">
-             <!-- <a class="btn pull-right" href="https://github.com/xiuxiude/coursera_alfred">View Us on Github</a> -->
            </div>
          </div>
        </div>
@@ -41,13 +40,12 @@
             </p>
           </div>
           
-          <ul class="unstyled" id="deadline-list" ng-show="deadlines.length">
+          <ul class="unstyled" id="deadline-list" ng-show="(deadlines).length">
+            
             <li
               class="deadline"
               ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
             >
-
-              <!-- <h4>{{deadline.course.name}}</h4> -->
               <div>
                 <p>
                   <i class="icon-time"></i>
@@ -91,7 +89,7 @@
     <script src="/components/angular/angular.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/appCtrl.js"></script>
-    <script src="js/services/courseStorage.js"></script>
+    <script src="js/services/alfredStorage.js"></script>
     <script src="js/filters/fromNow.js"></script>
     <script src="js/filters/hide.js"></script>
   </div>
