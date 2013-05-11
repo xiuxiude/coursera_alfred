@@ -4,7 +4,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage) {
   
   $scope.deadlines = alfredStorage.getDeadlines();
   $scope.new = alfredStorage.isNew();
-  $scope.sign_in = alfredStorage.isSignIn();
+  $scope.isSignedIn = alfredStorage.isSignedIn();
 
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   

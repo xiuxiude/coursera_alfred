@@ -5,7 +5,11 @@ app.factory('alfredStorage', function () {
   var DEADLINES_STORAGE_ID  =  "alfred_deadlines";
   var IS_NEW_STORAGE_ID = "new";
   var USER_STORAGE_ID = "user_id";
-  var IS_SIGN_IN = "sign_in";
+  var IS_SIGNED_IN_ID = "sign_in";
+
+  var unNew = function(){
+    localStorage.setItem(IS_NEW_STORAGE_ID, '0');
+  }
   var getRemoved = function(){
     return JSON.parse(localStorage.getItem(REMOVED_STORAGE_ID) || '[]');
   };
@@ -14,6 +18,10 @@ app.factory('alfredStorage', function () {
   };
 
   return {
+    getRemoved: getRemoved,
+
+    putRemoved: putRemoved,
+    
     getUserID: function(){
       return JSON.parse(localStorage.getItem(USER_STORAGE_ID) || '0');
     },
@@ -23,7 +31,7 @@ app.factory('alfredStorage', function () {
     },
     
     reset: function(){
-      localStorage.removeItem(IS_SIGN_IN);
+      localStorage.removeItem(IS_SIGNED_IN_ID);
       localStorage.removeItem(USER_STORAGE_ID);
       localStorage.setItem(DEADLINES_STORAGE_ID, '[]');
       localStorage.setItem(IS_NEW_STORAGE_ID, '1');
@@ -33,21 +41,31 @@ app.factory('alfredStorage', function () {
       return JSON.parse(localStorage.getItem(DEADLINES_STORAGE_ID) || '[]');
     },
 
-    isSignIn: function(){
-      return JSON.parse(localStorage.getItem(IS_SIGN_IN) || '0');
+    isSignedIn: function(){
+      return JSON.parse(localStorage.getItem(IS_SIGNED_IN_ID) || '0');
     },
     
+    signIn: function(){
+      localStorage.setItem(IS_SIGNED_IN_ID, '1');
+      unNew();
+    },
+    
+    signOut: function(){
+      localStorage.setItem(IS_SIGNED_IN_ID, '0');
+      unNew();
+    },
+    
+    setDeadlines: function(deadlines){
+      localStorage.setItem(DEADLINES_STORAGE_ID, JSON.stringify(deadlines));
+    },
+
     isNew: function(){
       return JSON.parse(localStorage.getItem(IS_NEW_STORAGE_ID) || '1');
     },
     
-    getRemoved: getRemoved,
-
-    putRemoved: putRemoved,
-
     removeExpiredDeadlines: function(){
-      var removedDeadlines = getRemoved().filter(function(removed_deadline){
-        return moment().isBefore(removed_deadline.time);
+      var removedDeadlines = getRemoved().filter(function(removedDeadline){
+        return moment().isBefore(removedDeadline.time);
       });
       putRemoved(removedDeadlines);
     }

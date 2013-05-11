@@ -133,7 +133,7 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
             )
             .then(
               getPages, function(reason){
-                deferred.resolve();
+                deferred.reject(reason);
               }
             )
             .then(function(pages){
