@@ -12,9 +12,13 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
       deferred.resolve(user_id);
     } else {
       chrome.cookies.get(request, function(cookie){
-        var user = JSON.parse(decodeURIComponent(cookie.value));
-        deferred.resolve(user.id);
-        alfredStorage.setUserID(user.id)
+        if(cookie){
+          var user = JSON.parse(decodeURIComponent(cookie.value));
+          deferred.resolve(user.id);
+          alfredStorage.setUserID(user.id)
+        } else{
+          deferred.resolve();
+        }
       });
     }
     return deferred.promise;
@@ -128,7 +132,9 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
               getAllCourses
             )
             .then(
-              getPages
+              getPages, function(reason){
+                deferred.resolve();
+              }
             )
             .then(function(pages){
               var events = getEvents(pages);
