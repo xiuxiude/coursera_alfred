@@ -1,5 +1,5 @@
 ##Coursera Alfred 
-everything occurs here are still changing along with development, so please ofen get back to get the lastset info.
+everything occurs here are still changing along with development, so please often get back to get the latest info.
 
 ##What is this
 
