@@ -9,7 +9,7 @@ Coursera Alfred is an all-in-one chrome extension for coursera.
 
 * courses'schedule
 
-![screenshots](http://f.cl.ly/items/1w1Y3u1z1w191Z0J1V3v/Screenshot_5_9_13_5_28_PM.png)
+![screenshots](http://f.cl.ly/items/3o3q0v2j2V1x291H0I21/Screenshot_5_15_13_1_11_PM.png)
 
 * multi-download button(under construction)
 
