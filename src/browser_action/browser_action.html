@@ -11,7 +11,7 @@
   <div class="navbar">
     <div class="navbar-inner">
       <div class="container">
-        <a class="brand" href="/">Coursera Alfred</a>
+        <a class="brand" href="#">Coursera Alfred</a>
         <div class="nav-collapse"></div>
       </div>
     </div>
@@ -24,7 +24,7 @@
         
           <div class="alert alert-success" ng-show="new">
             <p>
-              I'm trying really to pulling your coursera data...please wait
+              I'm trying really hard to pulling your coursera data...please wait
             </p>
             <div class="progress progress-striped active">
               <div class="bar" style="width: 40%;"></div>
@@ -34,11 +34,9 @@
           
           <div ng-hide="new">
             <div ng-hide="isSignedIn">
-              <div class="alert alert-block">
-                <a ng-click="signIn()">
-                  Please click me to sign in first
-                </a>
-              </div>
+              <button class="btn btn-large btn-block btn-link signIn" type="button" ng-click="signIn()">
+                  Please click me to sign in first.
+              </button>
             </div>          
         
             <div ng-show="isSignedIn">
@@ -52,25 +50,32 @@
               </div>
           
               <ul class="unstyled" id="deadline-list" ng-show="(deadlines| hide:removedDeadlines).length">
-          
-              <li
-                class="deadline"
-                ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
-              >
-                <div>
-                  <input type="checkbox" ng-click="removeDeadline(deadline)">
-                  <p></p>
-                  <p>
-                    <i class="icon-time"></i>
-                    <time>{{deadline.time|from_now}}</time>
-                  </p>                
-                  <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
-                  <a ng-click="openDeadlineInNewTab(deadline)">
-                    {{deadline.title}}
-                  </a>
-                </div>
+                <li
+                  class="deadline"
+                  ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
+                >
+                  <div class="row-fluid">
+                    <div class="span1">
+                      <input
+                        type="checkbox" ng-click="removeDeadline(deadline)"
+                      >
+                    </div>
+                    <div class="span11">
+                      <p>
+                        <i class="icon-time"></i>
+                        <time>{{deadline.time|from_now}}</time>
+                      </p>                
+                      <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
+                      <div class="content">
+                        <a ng-click="openDeadlineInNewTab(deadline)">
+                          {{deadline.title}}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
                 <hr/>  
-              </li>
+                </li>
               </ul>
           <!-- <h2>New Lectures</h2>
           <ul id="course-list">
@@ -89,7 +94,7 @@
         </div>
       </div>
     </section>
-  <script src="/components/jquery/jquery.js"></script>
+  </div>
   <script src="/components/moment/moment.js"></script>
   <script src="/components/angular/angular.js"></script>
   <script src="js/app.js"></script>
