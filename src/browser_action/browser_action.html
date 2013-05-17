@@ -12,7 +12,9 @@
     <div class="navbar-inner">
       <div class="container">
         <a class="brand" href="#">Coursera Alfred</a>
-        <div class="nav-collapse"></div>
+        <ul class="nav">
+          <li class="active"><a href="#">Deadlines</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -20,8 +22,6 @@
     <section id="courseapp" ng-controller="appCtrl">
       <div class="row">
         <div class="span4">
-          <h2>Deadlines</h2>
-        
           <div class="alert alert-success" ng-show="new">
             <p>
               I'm trying really hard to pulling your coursera data...please wait
@@ -30,53 +30,103 @@
               <div class="bar" style="width: 40%;"></div>
             </div>
           </div>
-          
-          
           <div ng-hide="new">
             <div ng-hide="isSignedIn">
               <button class="btn btn-large btn-block btn-link signIn" type="button" ng-click="signIn()">
                   Please click me to sign in first.
               </button>
             </div>          
-        
             <div ng-show="isSignedIn">
-              <div 
-                class="alert alert-success"
-                ng-hide="(deadlines| hide:removedDeadlines).length"
-              >
-                <p>
-                  You have no deadline left;)
-                </p>
-              </div>
-          
-              <ul class="unstyled" id="deadline-list" ng-show="(deadlines| hide:removedDeadlines).length">
-                <li
-                  class="deadline"
-                  ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
-                >
-                  <div class="row-fluid">
-                    <div class="span1">
-                      <input
-                        type="checkbox" ng-click="removeDeadline(deadline)"
-                      >
-                    </div>
-                    <div class="span11">
-                      <p>
-                        <i class="icon-time"></i>
-                        <time>{{deadline.time|from_now}}</time>
-                      </p>                
-                      <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
-                      <div class="content">
-                        <a ng-click="openDeadlineInNewTab(deadline)">
-                          {{deadline.title}}
-                        </a>
+              <div class="tabbalbe">
+                <ul class="nav nav-tabs" id="tabs">
+                  <li class="active">
+                    <a href="#unfinished" data-toggle="tab">Unfinished</a>
+                  </li>
+                  <li><a href="#finished" data-toggle="tab">Finished</a></li>
+                </ul>
+              </div>                            
+              <div class="tab-content">
+                <div class="tab-pane active" id="unfinished">              
+                  <div 
+                    class="alert alert-success"
+                    ng-hide="(deadlines | hide:removedDeadlines).length"
+                  >
+                    <p>
+                      You have no deadline left here;)
+                    </p>
+                  </div>         
+                  <ul class="unstyled" id="deadline-list" ng-show="(deadlines | hide:removedDeadlines).length">
+                    <li
+                      class="deadline"
+                      ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
+                    >
+                      <div class="row-fluid">
+                        <div class="span1">
+                          <input
+                            type="checkbox" ng-click="removeDeadline(deadline)"
+                          >
+                        </div>
+                        <div class="span11">
+                          <p>
+                            <i class="icon-time"></i>
+                            <time>{{deadline.time|from_now}}</time>
+                          </p>                
+                          <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
+                          <div class="content">
+                            <a ng-click="openDeadlineInNewTab(deadline)">
+                              {{deadline.title}}
+                            </a>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    <hr/>  
+                    </li>
+                  </ul>
+                </div>
+                <div class="tab-pane" id="finished">              
+                  <div 
+                    class="alert alert-success"
+                    ng-hide="removedDeadlines.length"
+                  >
+                    <p>
+                      You have no deadline left here;)
+                    </p>
                   </div>
+          
+                  <ul class="unstyled" id="deadline-list" ng-show="removedDeadlines.length">
+                    <li
+                      class="deadline"
+                      ng-repeat="deadline in removedDeadlines | orderBy:'time' "
+                    >
+                      <div class="row-fluid">
+                        <div class="span1">
+                          <input
+                            type="checkbox" ng-click="restoreDeadline(deadline)"
+                          >
+                        </div>
+                        <div class="span11">
+                          <p>
+                            <i class="icon-time"></i>
+                            <time>{{deadline.time|from_now}}</time>
+                          </p>                
+                          <img ng-src="{{deadline.course.icon}}" class="img-rounded"/>
+                          <div class="content">
+                            <a ng-click="openDeadlineInNewTab(deadline)">
+                              {{deadline.title}}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    <hr/>  
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <hr/>  
-                </li>
-              </ul>
           <!-- <h2>New Lectures</h2>
           <ul id="course-list">
              <li ng-repeat="course in courses">
@@ -89,14 +139,13 @@
              </li>
            </ul>        
           </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
+
     </section>
   </div>
   <script src="/components/moment/moment.js"></script>
   <script src="/components/angular/angular.js"></script>
+  <script src="/components/jquery/jquery.min.js"></script>
+  <script src="/components/bootstrap-assets/js/bootstrap-tab.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers/appCtrl.js"></script>
   <script src="js/services/alfredStorage.js"></script>
