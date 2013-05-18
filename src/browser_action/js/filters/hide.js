@@ -2,12 +2,12 @@ app.filter('hide', function()
 {
     return function(deadlines, removedDeadlines)
     { 
-      var removedDeadlineLinks = removedDeadlines.map(function(removedItem){
-        return removedItem.link;
+      var removedDeadlineHtmls = removedDeadlines.map(function(removedItem){
+        return removedItem.html;
       });
       
       return deadlines.filter(function(deadline){
-        return (removedDeadlineLinks.indexOf(deadline.link) === -1);
+        return (removedDeadlineHtmls.indexOf(deadline.html) === -1);
       });
     }
 });

@@ -97,7 +97,6 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
                           });
         date_array.splice(date_array.length-2, 1);
         var dateString = date_array.join(" ");
-
         var object  = { 
           "html": $deadline.html(),
           "title": $deadlineItem.data("event-title"),

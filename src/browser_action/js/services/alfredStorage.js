@@ -53,6 +53,7 @@ app.factory('alfredStorage', function () {
     signOut: function(){
       localStorage.setItem(IS_SIGNED_IN_ID, '0');
       unNew();
+      putRemoved([]);
     },
     
     setDeadlines: function(deadlines){
