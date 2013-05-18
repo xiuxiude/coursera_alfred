@@ -77,10 +77,10 @@ app.factory('alfredStorage', function () {
     //  putRemoved(removedDeadlines);
     //}
 
-    restoreDeadline: function(deadline){
-      return getRemoved().filter(function(removedItem){
-        return removedItem.link != deadline.link;
-      })
-    }
+    //restoreDeadline: function(deadline){
+    //  return getRemoved().filter(function(removedItem){
+    //    return removedItem.link != deadline.link;
+    //  })
+    //}
   };
 });

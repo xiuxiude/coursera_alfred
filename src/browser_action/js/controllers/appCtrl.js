@@ -9,6 +9,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage) {
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   
   $scope.$watch('removedDeadlines', function (){
+    console.log("fired");
     alfredStorage.putRemoved(removedDeadlines);
   }, true);
 
@@ -26,7 +27,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage) {
 
   //$scope.restoreDeadline = alfredStorage.restoreDeadline;
   
-  $scope.restoreDeadline = function(deadline){
-    removedDeadlines = alfredStorage.restoreDeadline(deadline);
+  $scope.restoreDeadline = function(index){
+    removedDeadlines.splice(index, 1);
   }
 });
