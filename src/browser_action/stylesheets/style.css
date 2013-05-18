@@ -2,10 +2,18 @@ h4 {
   font-size: 12px;
 }
 
-#deadline-list h4 {
+.deadline-list h4 {
   width: 160px;
   float: right;
   margin-top: -3px;
+}
+
+.deadline-list button {
+  margin: 10px;
+}
+
+.deadline-list hr {
+  margin: 10px 0;
 }
 
 .deadline img {
@@ -19,9 +27,11 @@ h4 {
 }
 
 .deadline .content {
- width: 150px;
+ width: 170px;
 }
 
 .signIn {
  margin-bottom: 10px;
 }
+
+
