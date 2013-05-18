@@ -147,8 +147,22 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
     chrome.browserAction.setBadgeText({text: len.toString()});
   }
   
+  var updateData = function(){
+    getCourses().then(function(events){
+      if(events){
+        alfredStorage.signIn();
+        alfredStorage.setDeadlines(events.deadlines);
+        alfredStorage.removeExpiredDeadlines();
+        
+        updateBadge();
+      }
+    }, function(reason){
+      alfredStorage.signOut();
+    });
+  }
+  
   return {
-    getCourses: getCourses,
+    updateData: updateData,
     updateBadge: updateBadge
   }
 });
