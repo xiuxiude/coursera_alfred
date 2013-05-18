@@ -68,19 +68,6 @@ app.factory('alfredStorage', function () {
         return moment().isBefore(removedDeadline.time);
       });
       putRemoved(removedDeadlines);
-    },
-
-    //restoreDeadline: function(deadline){
-    //  var removedDeadlines = getRemoved().filter(function(removedItem){
-    //    return removedItem.link != deadline.link;
-    //  }); 
-    //  putRemoved(removedDeadlines);
-    //}
-
-    //restoreDeadline: function(deadline){
-    //  return getRemoved().filter(function(removedItem){
-    //    return removedItem.link != deadline.link;
-    //  })
-    //}
+    }
   };
 });

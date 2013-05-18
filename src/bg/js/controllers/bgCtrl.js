@@ -4,9 +4,11 @@ app.controller('bgCtrl', function BgCtrl($scope, courseService, alfredStorage) {
   var updateData = function(){
     courseService.getCourses().then(function(events){
       if(events){
-        alfredStorage.signIn()
-        alfredStorage.setDeadlines(events.deadlines)
+        alfredStorage.signIn();
+        alfredStorage.setDeadlines(deadlines)
         alfredStorage.removeExpiredDeadlines();
+        
+        courseService.updateBadge();
       }
     }, function(reason){
       alfredStorage.signOut();
