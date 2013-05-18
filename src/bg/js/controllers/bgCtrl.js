@@ -5,7 +5,7 @@ app.controller('bgCtrl', function BgCtrl($scope, courseService, alfredStorage) {
     courseService.getCourses().then(function(events){
       if(events){
         alfredStorage.signIn();
-        alfredStorage.setDeadlines(deadlines)
+        alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
         
         courseService.updateBadge();
