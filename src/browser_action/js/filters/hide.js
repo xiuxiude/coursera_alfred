@@ -7,7 +7,17 @@ app.filter('hide', function()
       });
       
       return deadlines.filter(function(deadline){
-        return (removedDeadlineHtmls.indexOf(deadline.html) === -1);
+        var target = deadline.html;
+        var result = false;
+        for(var i = 0; i < removedDeadlineHtmls.length; i++){
+         var removedItemHtml = removedDeadlineHtmls[i];
+         var temp = ((removedItemHtml.length === target.length) && (removedItemHtml === target));
+         result = result || temp;
+         if(result){
+          break;
+         }
+        }
+        return !result;
       });
     }
 });
