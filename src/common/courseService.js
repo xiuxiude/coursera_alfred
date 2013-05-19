@@ -145,9 +145,13 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
   var updateBadge = function(){
     var len = alfredStorage.getDeadlines().length - alfredStorage.getRemoved().length;
     chrome.browserAction.setBadgeText({text: len.toString()});
+    if(len == 0){
+      chrome.browserAction.setBadgeText({text: ''});
+    }
   }
   
   var updateData = function(){
+    chrome.browserAction.setBadgeText({text: '...'});
     getCourses().then(function(events){
       if(events){
         alfredStorage.signIn();
