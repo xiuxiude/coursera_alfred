@@ -18,6 +18,6 @@ app.controller('bgCtrl', function BgCtrl($scope, courseService, alfredStorage) {
   chrome.cookies.onChanged.addListener(function(info){
     alfredStorage.reset()
     courseService.updateData();
-  })
+  });
 });
 

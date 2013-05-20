@@ -24,7 +24,7 @@ Coursera Alfred is an all-in-one chrome extension for coursera.
 
 ##To Developer
 
-* Coursera alfred is developed with [angluarJS](http://angularjs.org/), so you need to understand some thing about it for better developing.
+* coursera alfred is developed with [angluarJS](http://angularjs.org/), so you need to understand some thing about it for better developing.
 
 * Also you are supposed to have some knowledge of [chrome extension api](http://developer.chrome.com/extensions/).
 
