@@ -15,9 +15,9 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
         if(cookie){
           var user = JSON.parse(decodeURIComponent(cookie.value));
           deferred.resolve(user.id);
-          alfredStorage.setUserID(user.id)
+          alfredStorage.setUserID(user.id);
         } else{
-          deferred.resolve();
+          deferred.reject();
         }
       });
     }
@@ -123,10 +123,11 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
   var getCourses =  function(){
     var deferred = Q.defer();
     getUserId().then(
-              getAllCourses
+                getAllCourses
             )
-            .then(
-              getPages, function(reason){
+            .then(  
+                getPages
+              , function(reason){
                 deferred.reject(reason);
               }
             )
@@ -139,25 +140,33 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
   
   var updateBadge = function(){
     var len = alfredStorage.getDeadlines().length - alfredStorage.getRemoved().length;
-    chrome.browserAction.setBadgeText({text: len.toString()});
     if(len == 0){
       chrome.browserAction.setBadgeText({text: ''});
+    }else{
+      chrome.browserAction.setBadgeText({text: len.toString()});
     }
   }
   
   var updateData = function(){
+    var filter =  {urls: ['https://www.coursera.org/*']};
     chrome.browserAction.setBadgeText({text: '...'});
+    alfredStorage.removeConnectItem();
     getCourses().then(function(events){
       if(events){
         alfredStorage.signIn();
         alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
-        
         updateBadge();
       }
     }, function(reason){
-      alfredStorage.signOut();
-    });
+      switch (reason.readyState){
+      case 4:
+        alfredStorage.signOut();break;
+      case 0:
+        alfredStorage.disconnect();break;
+      }
+    }
+    )
   }
   
   return {
