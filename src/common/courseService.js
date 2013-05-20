@@ -86,23 +86,18 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
         var $deadline = $(deadline);
         var $deadlineItem = $deadline.find('time');
         
-        // remove specific timezone string in date string(like HKT, because Date() can't pase that)
-        var date_array = $deadline
-                          .find(".course-assignment-deadline")
-                          .text()
-                          .replace("\n","")
-                          .split(' ')
-                          .filter(function(item){
-                            return item;
-                          });
-        date_array.splice(date_array.length-2, 1);
-        var dateString = date_array.join(" ");
+        // use momentjs to parse the unstandard date format
+        var date = moment(
+          $deadlineItem.data("event-times").split('/')[1],
+          "YYYYMMDDTHHmmssZ"
+        );
+
         var object  = { 
           "html": $deadline.html(),
           "title": $deadlineItem.data("event-title"),
           "link": $deadlineItem.data("event-location"),
           "description": $deadlineItem.data("event-description"),
-          "time": new Date(dateString),
+          "time": date,
           "course": {
             "name": item.name,
             "icon": item.small_icon
@@ -145,10 +140,28 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
   var updateBadge = function(){
     var len = alfredStorage.getDeadlines().length - alfredStorage.getRemoved().length;
     chrome.browserAction.setBadgeText({text: len.toString()});
+    if(len == 0){
+      chrome.browserAction.setBadgeText({text: ''});
+    }
+  }
+  
+  var updateData = function(){
+    chrome.browserAction.setBadgeText({text: '...'});
+    getCourses().then(function(events){
+      if(events){
+        alfredStorage.signIn();
+        alfredStorage.setDeadlines(events.deadlines);
+        alfredStorage.removeExpiredDeadlines();
+        
+        updateBadge();
+      }
+    }, function(reason){
+      alfredStorage.signOut();
+    });
   }
   
   return {
-    getCourses: getCourses,
+    updateData: updateData,
     updateBadge: updateBadge
   }
 });
