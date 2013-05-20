@@ -6,7 +6,6 @@ app.factory('alfredStorage', function () {
   var IS_NEW_STORAGE_ID = "new";
   var USER_STORAGE_ID = "user_id";
   var IS_SIGNED_IN_STORAGE_ID = "sign_in";
-  var IS_CONNECTED_STORAGE_ID = "connect";
 
   var unNew = function(){
     localStorage.setItem(IS_NEW_STORAGE_ID, '0');
@@ -23,21 +22,10 @@ app.factory('alfredStorage', function () {
 
     putRemoved: putRemoved,
 
+    unNew: unNew,
+
     isNew: function(){
       return JSON.parse(localStorage.getItem(IS_NEW_STORAGE_ID) || '1');
-    },
-
-    isConnected: function(){
-      return JSON.parse(localStorage.getItem(IS_CONNECTED_STORAGE_ID) || '1');
-    },
-
-    disconnect: function(){
-      localStorage.setItem(IS_CONNECTED_STORAGE_ID, '0');
-      unNew();
-    },
-
-    removeConnectItem: function(){
-      localStorage.removeItem(IS_CONNECTED_STORAGE_ID);
     },
     
     getUserID: function(){
@@ -66,7 +54,6 @@ app.factory('alfredStorage', function () {
     
     signOut: function(){
       localStorage.setItem(IS_SIGNED_IN_STORAGE_ID, '0');
-      unNew();
       putRemoved([]);
     },
 

@@ -150,7 +150,6 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
   var updateData = function(){
     var filter =  {urls: ['https://www.coursera.org/*']};
     chrome.browserAction.setBadgeText({text: '...'});
-    alfredStorage.removeConnectItem();
     getCourses().then(function(events){
       if(events){
         alfredStorage.signIn();
@@ -159,13 +158,11 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
         updateBadge();
       }
     }, function(reason){
-      switch (reason.readyState){
-      case 4:
-        alfredStorage.signOut();break;
-      case 0:
-        alfredStorage.disconnect();break;
+        if(navigator.onLine){
+          alfredStorage.signOut();
+        };
+        alfredStorage.unNew();
       }
-    }
     )
   }
   

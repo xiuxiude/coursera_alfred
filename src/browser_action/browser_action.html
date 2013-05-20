@@ -31,13 +31,13 @@
             </div>
           </div>
           <div ng-hide="new">
-             <div class="alert alert-info"ng-hide="isConnected">
+             <div class="alert alert-info" ng-hide="isOnLine">
               <button class="close" data-dismiss="alert">&times;</button>
               <p>
                 It seems you are offline, you'd better connect to the network for latest news.  
               </p>
             </div>
-              <div ng-show="isConnected">
+              <div ng-show="isOnLine">
                 <div ng-hide="isSignedIn">
                   <button class="btn btn-large btn-block btn-link signIn" 
                         type="button" ng-click=" signIn()">

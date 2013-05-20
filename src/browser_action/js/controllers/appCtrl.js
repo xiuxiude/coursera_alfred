@@ -5,8 +5,8 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
   $scope.deadlines = alfredStorage.getDeadlines();
   $scope.new = alfredStorage.isNew();
   $scope.isSignedIn = alfredStorage.isSignedIn();
-  $scope.isConnected = alfredStorage.isConnected();
-
+  $scope.isOnLine = navigator.onLine;
+  
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   
   $scope.$watch('removedDeadlines', function (){
@@ -27,7 +27,6 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
   $scope.removeDeadline = function(deadline){
     removedDeadlines.push(deadline);
   };
-
 
   $scope.restoreDeadline = function(index){
     removedDeadlines.splice(index, 1);
