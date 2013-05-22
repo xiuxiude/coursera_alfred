@@ -13,9 +13,14 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
     } else {
       chrome.cookies.get(request, function(cookie){
         if(cookie){
-          var user = JSON.parse(decodeURIComponent(cookie.value));
-          deferred.resolve(user.id);
-          alfredStorage.setUserID(user.id)
+          var user_id = JSON.parse(decodeURIComponent(cookie.value)).id;
+          if(user_id){
+            alfredStorage.signIn();
+            alfredStorage.setUserID(user_id);
+            deferred.resolve(user_id);
+          } else{
+          deferred.reject();
+          }
         } else{
           deferred.resolve();
         }
@@ -124,6 +129,10 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
     var deferred = Q.defer();
     getUserId().then(
               getAllCourses
+            , function(reason){
+                alfredStorage.signOut();
+                deferred.reject(reason);
+              } 
             )
             .then(
               getPages, function(reason){
@@ -135,33 +144,45 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
               deferred.resolve(events);
             })
     return deferred.promise;
-  }
+  };
+
+  var initIcon = function(){
+    chrome.browserAction.setIcon({path: "/icons/icon19.png"});
+    chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
+    chrome.browserAction.setBadgeText({text:".."});
+  };
   
-  var updateBadge = function(){
+  var updateIcon = function(){
     var len = alfredStorage.getDeadlines().length - alfredStorage.getRemoved().length;
-    chrome.browserAction.setBadgeText({text: len.toString()});
-    if(len == 0){
-      chrome.browserAction.setBadgeText({text: ''});
+    if (!alfredStorage.isSignedIn()) {
+      chrome.browserAction.setIcon({path: "/icons/icon19gray.png"});
+      chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
+      chrome.browserAction.setBadgeText({text:"?"});
+    } else {
+      chrome.browserAction.setBadgeText({
+        text: len != "0" ? len.toString() : "" 
+      });
     }
-  }
+  };
   
   var updateData = function(){
-    chrome.browserAction.setBadgeText({text: '...'});
+    alfredStorage.reNew();
+    initIcon();
     getCourses().then(function(events){
       if(events){
-        alfredStorage.signIn();
         alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
-        
-        updateBadge();
+        alfredStorage.unNew();
+        updateIcon();
       }
     }, function(reason){
-      alfredStorage.signOut();
+      alfredStorage.unNew();
+      updateIcon();
     });
   }
   
   return {
     updateData: updateData,
-    updateBadge: updateBadge
+    updateIcon: updateIcon
   }
 });

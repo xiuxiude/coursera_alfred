@@ -5,6 +5,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
   $scope.deadlines = alfredStorage.getDeadlines();
   $scope.new = alfredStorage.isNew();
   $scope.isSignedIn = alfredStorage.isSignedIn();
+  $scope.isOnLine = navigator.onLine;
 
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   
@@ -12,7 +13,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
     alfredStorage.putRemoved(removedDeadlines);
     
     //update the badge count when user remove deadline
-    courseService.updateBadge();
+    courseService.updateIcon();
   }, true);
 
   $scope.signIn = function(){
