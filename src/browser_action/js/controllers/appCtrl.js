@@ -3,9 +3,15 @@
 app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseService, icon){
   
   $scope.deadlines = alfredStorage.getDeadlines();
-  $scope.new = alfredStorage.isNew();
-  $scope.isSignedIn = alfredStorage.isSignedIn();
-  $scope.isOnLine = navigator.onLine;
+  
+  var isNew = alfredStorage.isNew();
+  var isSignedIn = alfredStorage.isSignedIn();
+  var isOnLine = navigator.onLine;
+  
+  $scope.displayLoading = isSignedIn && isNew && isOnLine;
+  $scope.displaySignIn = !isSignedIn && isOnLine;
+  $scope.displayOffline = !isOnLine;
+  $scope.displayDeadlines = !isNew && isSignedIn;
 
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   
@@ -31,5 +37,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
 
   $scope.restoreDeadline = function(index){
     removedDeadlines.splice(index, 1);
-  }
+  };
+  
+  $scope.update = courseService.updateData;
 });
