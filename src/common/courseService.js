@@ -25,7 +25,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
             deferred.resolve(user_id);
           }
         }
-        deferred.reject(ERROR.NOT_LOGIN);
+        deferred.reject();
       });
     }
     return deferred.promise;
@@ -33,10 +33,9 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
 
   var getAllCourses = function(user_id){
     var url = base_url + user_id;
-    return $.get(url)
-                .then(function(response){
-                  return response;
-                });
+    return Q.when($.get(url)).then(function(data){
+        return data;
+      });
   };
 
   var getPages = function(courses){
@@ -46,12 +45,10 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
       var deferred = Q.defer();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
-      $.get(item.home_link)
-           .then(function(response){
-             item["html"] = response;
-             deferred.resolve(item);
-           });
-      return deferred.promise;
+      return Q.when($.get(item.home_link)).then(function(response){
+        item["html"] = response;
+        return item;
+      });
     });
     return Q.all(courses_promoises);
   };
@@ -134,17 +131,14 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
               deferred.reject(ERROR.NOT_LOGIN);
             })
             .then(
-            getPages, function(){
-              deferred.reject(ERROR.REQUEST_FAILED);
-            })
+            getPages
+            )
             .then(function(pages){
               var events = getEvents(pages);
               deferred.resolve(events);
             }, function(){
               deferred.reject(ERROR.REQUEST_FAILED);
-            }).fail(function(reason){
-              deferred.reject(reason);
-            });
+            })
     return deferred.promise;
   };
   
@@ -159,15 +153,16 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
         icon.updateIcon();
       }
     }, function(reason){
+      console.log(reason);
       switch (reason) {
       case ERROR.NOT_LOGIN:
         alfredStorage.signOut();
-        icon.updateIcon();
         break;
       case ERROR.REQUEST_FAILED:
         break;
       default:
       }
+      icon.updateIcon();
     });
   }
   
