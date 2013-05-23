@@ -13,7 +13,8 @@ app.factory('alfredStorage', function () {
 
   var unNew = function(){
     localStorage.setItem(IS_NEW_STORAGE_ID, '0');
-  }
+  };
+  
   var getRemoved = function(){
     return JSON.parse(localStorage.getItem(REMOVED_STORAGE_ID) || '[]');
   };

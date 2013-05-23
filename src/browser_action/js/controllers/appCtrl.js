@@ -1,6 +1,6 @@
 /*global todomvc */
 'use strict';
-app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseService){
+app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseService, icon){
   
   $scope.deadlines = alfredStorage.getDeadlines();
   $scope.new = alfredStorage.isNew();
@@ -13,7 +13,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
     alfredStorage.putRemoved(removedDeadlines);
     
     //update the badge count when user remove deadline
-    courseService.updateIcon();
+    icon.updateIcon();
   }, true);
 
   $scope.signIn = function(){

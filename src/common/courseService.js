@@ -1,13 +1,18 @@
 'use strict';
 
-app.factory('courseService', function ($http, $q, alfredStorage) {
+app.factory('courseService', function ($http, $q, alfredStorage, icon) {
   var base_url = "https://www.coursera.org/maestro/api/topic/list_my?user_id=";
+
+  var ERROR = {
+    NOT_LOGIN: 1,
+    REQUEST_FAILED: 2
+  };
   
   var getUserId = function(){
     var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
-    
     var deferred = Q.defer();
     var user_id;
+
     if(user_id = alfredStorage.getUserID() ) {
       deferred.resolve(user_id);
     } else {
@@ -18,12 +23,9 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
             alfredStorage.signIn();
             alfredStorage.setUserID(user_id);
             deferred.resolve(user_id);
-          } else{
-          deferred.reject();
           }
-        } else{
-          deferred.resolve();
         }
+        deferred.reject(ERROR.NOT_LOGIN);
       });
     }
     return deferred.promise;
@@ -34,7 +36,7 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
     return $.get(url)
                 .then(function(response){
                   return response;
-                })
+                });
   };
 
   var getPages = function(courses){
@@ -128,61 +130,48 @@ app.factory('courseService', function ($http, $q, alfredStorage) {
   var getCourses =  function(){
     var deferred = Q.defer();
     getUserId().then(
-              getAllCourses
-            , function(reason){
-                alfredStorage.signOut();
-                deferred.reject(reason);
-              } 
-            )
+            getAllCourses, function(){
+              deferred.reject(ERROR.NOT_LOGIN);
+            })
             .then(
-              getPages, function(reason){
-                deferred.reject(reason);
-              }
-            )
+            getPages, function(){
+              deferred.reject(ERROR.REQUEST_FAILED);
+            })
             .then(function(pages){
               var events = getEvents(pages);
               deferred.resolve(events);
-            })
+            }, function(){
+              deferred.reject(ERROR.REQUEST_FAILED);
+            }).fail(function(reason){
+              deferred.reject(reason);
+            });
     return deferred.promise;
-  };
-
-  var initIcon = function(){
-    chrome.browserAction.setIcon({path: "/icons/icon19.png"});
-    chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
-    chrome.browserAction.setBadgeText({text:".."});
-  };
-  
-  var updateIcon = function(){
-    var len = alfredStorage.getDeadlines().length - alfredStorage.getRemoved().length;
-    if (!alfredStorage.isSignedIn()) {
-      chrome.browserAction.setIcon({path: "/icons/icon19gray.png"});
-      chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
-      chrome.browserAction.setBadgeText({text:"?"});
-    } else {
-      chrome.browserAction.setBadgeText({
-        text: len != "0" ? len.toString() : "" 
-      });
-    }
   };
   
   var updateData = function(){
     alfredStorage.reNew();
-    initIcon();
-    getCourses().then(function(events){
+    icon.initIcon();
+    getCourses().done(function(events){
       if(events){
         alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
         alfredStorage.unNew();
-        updateIcon();
+        icon.updateIcon();
       }
     }, function(reason){
-      alfredStorage.unNew();
-      updateIcon();
+      switch (reason) {
+      case ERROR.NOT_LOGIN:
+        alfredStorage.signOut();
+        icon.updateIcon();
+        break;
+      case ERROR.REQUEST_FAILED:
+        break;
+      default:
+      }
     });
   }
   
   return {
-    updateData: updateData,
-    updateIcon: updateIcon
+    updateData: updateData
   }
 });
