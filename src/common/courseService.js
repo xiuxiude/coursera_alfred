@@ -162,6 +162,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
         break;
       default:
       }
+      alfredStorage.unNew();
       icon.updateIcon();
     });
   }
