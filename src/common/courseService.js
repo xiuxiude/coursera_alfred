@@ -10,7 +10,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
   
   var getUserId = function(){
     var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
-    var deferred = Q.defer();
+    var deferred = $q.defer();
     var user_id;
 
     if(user_id = alfredStorage.getUserID() ) {
@@ -25,7 +25,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
             deferred.resolve(user_id);
           }
         }
-        deferred.reject();
+        deferred.reject(ERROR.NOT_LOGIN);
       });
     }
     return deferred.promise;
@@ -33,24 +33,33 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
 
   var getAllCourses = function(user_id){
     var url = base_url + user_id;
-    return Q.when($.get(url)).then(function(data){
-        return data;
-      });
+    var deferred = $q.defer();
+    
+    $http.get(url).then(function(response){
+      deferred.resolve(response.data);
+    }, function(){
+      deferred.reject(ERROR.REQUEST_FAILED);
+    });
+    return deferred.promise;
   };
 
   var getPages = function(courses){
     var courses_promoises = courses.filter(function(item){
       return item.courses[0].home_link;
     }).map(function(item){
-      var deferred = Q.defer();
+      var deferred = $q.defer();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
-      return Q.when($.get(item.home_link)).then(function(response){
-        item["html"] = response;
-        return item;
-      });
+      $http.get(item.home_link)
+            .then(function(response){
+              item["html"] = response.data;
+              deferred.resolve(item)
+            }, function(reason){
+              deferred.reject(reason);
+            });
+      return deferred.promise;
     });
-    return Q.all(courses_promoises);
+    return $q.all(courses_promoises);
   };
 
 
@@ -120,32 +129,30 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
       return item["new_lectures"].length > 0;
     });
     
-    // events.courses = courses;
     return events;
   };
   
   var getCourses =  function(){
-    var deferred = Q.defer();
+    var deferred = $q.defer();
     getUserId().then(
-            getAllCourses, function(){
-              deferred.reject(ERROR.NOT_LOGIN);
-            })
+            getAllCourses
+            )
             .then(
             getPages
             )
             .then(function(pages){
               var events = getEvents(pages);
               deferred.resolve(events);
-            }, function(){
-              deferred.reject(ERROR.REQUEST_FAILED);
-            })
+            }, function(reason){
+              deferred.reject(reason);
+            });
     return deferred.promise;
   };
   
   var updateData = function(){
     alfredStorage.reNew();
     icon.initIcon();
-    getCourses().done(function(events){
+    getCourses().then(function(events){
       if(events){
         alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
