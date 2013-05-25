@@ -10,7 +10,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
   
   var getUserId = function(){
     var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
-    var deferred = $q.defer();
+    var deferred = Q.defer();
     var user_id;
 
     if(user_id = alfredStorage.getUserID() ) {
@@ -33,7 +33,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
 
   var getAllCourses = function(user_id){
     var url = base_url + user_id;
-    var deferred = $q.defer();
+    var deferred = Q.defer();
     
     $http.get(url).then(function(response){
       deferred.resolve(response.data);
@@ -47,7 +47,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
     var courses_promoises = courses.filter(function(item){
       return item.courses[0].home_link;
     }).map(function(item){
-      var deferred = $q.defer();
+      var deferred = Q.defer();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
       $http.get(item.home_link)
@@ -59,7 +59,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
             });
       return deferred.promise;
     });
-    return $q.all(courses_promoises);
+    return Q.all(courses_promoises);
   };
 
 
@@ -133,7 +133,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
   };
   
   var getCourses =  function(){
-    var deferred = $q.defer();
+    var deferred = Q.defer();
     getUserId().then(
             getAllCourses
             )
@@ -154,13 +154,14 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
     icon.initIcon();
     getCourses().then(function(events){
       if(events){
+        console.log("get data successfully");
         alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
         alfredStorage.unNew();
         icon.updateIcon();
       }
     }, function(reason){
-      console.log(reason);
+      console.log("failed", reason);
       switch (reason) {
       case ERROR.NOT_LOGIN:
         alfredStorage.signOut();
