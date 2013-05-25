@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('courseService', function ($http, $q, alfredStorage, icon) {
+app.factory('courseService', function ($http, alfredStorage, icon) {
   var base_url = "https://www.coursera.org/maestro/api/topic/list_my?user_id=";
 
   var ERROR = {
