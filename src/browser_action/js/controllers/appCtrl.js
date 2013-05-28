@@ -36,10 +36,9 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
     removedDeadlines.push(deadline);
   };
 
-
   $scope.restoreDeadline = function(index){
     removedDeadlines.splice(index, 1);
   };
   
-  $scope.update = courseService.updateData;
+  //$scope.update = courseService.updateData;
 });
