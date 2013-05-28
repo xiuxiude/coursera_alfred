@@ -170,6 +170,7 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
         break;
       default:
       }
+      alfredStorage.removeExpiredDeadlines();
       alfredStorage.unNew();
       icon.updateIcon();
     });
