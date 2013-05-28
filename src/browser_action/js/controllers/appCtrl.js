@@ -16,10 +16,12 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();
   
   $scope.$watch('removedDeadlines', function (){
-    alfredStorage.putRemoved(removedDeadlines);
+    if(!isNew){
+      alfredStorage.putRemoved(removedDeadlines);
     
-    //update the badge count when user remove deadline
-    icon.updateIcon();
+      //update the badge count when user remove deadline
+      icon.updateIcon();
+    }
   }, true);
 
   $scope.signIn = function(){
@@ -34,10 +36,9 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
     removedDeadlines.push(deadline);
   };
 
-
   $scope.restoreDeadline = function(index){
     removedDeadlines.splice(index, 1);
   };
   
-  $scope.update = courseService.updateData;
+  //$scope.update = courseService.updateData;
 });

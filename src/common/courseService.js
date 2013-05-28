@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('courseService', function ($http, $q, alfredStorage, icon) {
+app.factory('courseService', function ($http, alfredStorage, icon) {
   var base_url = "https://www.coursera.org/maestro/api/topic/list_my?user_id=";
 
   var ERROR = {
@@ -25,7 +25,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
             deferred.resolve(user_id);
           }
         }
-        deferred.reject();
+        deferred.reject(ERROR.NOT_LOGIN);
       });
     }
     return deferred.promise;
@@ -33,9 +33,14 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
 
   var getAllCourses = function(user_id){
     var url = base_url + user_id;
-    return Q.when($.get(url)).then(function(data){
-        return data;
-      });
+    var deferred = Q.defer();
+    
+    $http.get(url).then(function(response){
+      deferred.resolve(response.data);
+    }, function(){
+      deferred.reject(ERROR.REQUEST_FAILED);
+    });
+    return deferred.promise;
   };
 
   var getPages = function(courses){
@@ -45,10 +50,14 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
       var deferred = Q.defer();
       item["class_link"] = item.courses[0].home_link;
       item["home_link"] = item["class_link"] + "class/index";
-      return Q.when($.get(item.home_link)).then(function(response){
-        item["html"] = response;
-        return item;
-      });
+      $http.get(item.home_link)
+            .then(function(response){
+              item["html"] = response.data;
+              deferred.resolve(item)
+            }, function(reason){
+              deferred.reject(reason);
+            });
+      return deferred.promise;
     });
     return Q.all(courses_promoises);
   };
@@ -120,40 +129,39 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
       return item["new_lectures"].length > 0;
     });
     
-    // events.courses = courses;
     return events;
   };
   
   var getCourses =  function(){
     var deferred = Q.defer();
     getUserId().then(
-            getAllCourses, function(){
-              deferred.reject(ERROR.NOT_LOGIN);
-            })
+            getAllCourses
+            )
             .then(
             getPages
             )
             .then(function(pages){
               var events = getEvents(pages);
               deferred.resolve(events);
-            }, function(){
-              deferred.reject(ERROR.REQUEST_FAILED);
-            })
+            }, function(reason){
+              deferred.reject(reason);
+            });
     return deferred.promise;
   };
   
   var updateData = function(){
     alfredStorage.reNew();
     icon.initIcon();
-    getCourses().done(function(events){
+    getCourses().then(function(events){
       if(events){
+        console.log("get data successfully");
         alfredStorage.setDeadlines(events.deadlines);
         alfredStorage.removeExpiredDeadlines();
         alfredStorage.unNew();
         icon.updateIcon();
       }
     }, function(reason){
-      console.log(reason);
+      console.log("failed", reason);
       switch (reason) {
       case ERROR.NOT_LOGIN:
         alfredStorage.signOut();
@@ -162,6 +170,7 @@ app.factory('courseService', function ($http, $q, alfredStorage, icon) {
         break;
       default:
       }
+      alfredStorage.removeExpiredDeadlines();
       alfredStorage.unNew();
       icon.updateIcon();
     });
