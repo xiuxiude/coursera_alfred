@@ -9,7 +9,7 @@ app.controller('bgCtrl', function BgCtrl($scope, courseService, alfredStorage) {
   chrome.alarms.create("scheduleRewquest", {periodInMinutes: interval});
 
   chrome.alarms.onAlarm.addListener(function(alarm){
-    if(alarm.name = "scheduleRequest"){
+    if(alarm.name === "scheduleRequest"){
       courseService.updateData();
     }
   });
