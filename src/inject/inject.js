@@ -27,5 +27,27 @@ $(document).on("click", "button.alfred", function (e) {
       elem.click();
     }, index*1000);
   });
+}).on("click",".lecture-link",function(){
+    var readyInterval = setInterval(
+        function(){
+            var $ifr = $('iframe');
+            if($ifr.length){
+                var $doc = $($ifr[0].contentDocument);
+                if($doc.find(".mejs-fullscreen-button").length){
+                    var el = document;
+                    var elm = el.documentElement;
+                    clearInterval(readyInterval);
+                    $doc.on('click','.mejs-fullscreen-button button',function(){
+                        if(el.webkitIsFullScreen ||el.fullscreenElement){
+                            var efs = el.exitFullscreen || el.webkitCancelFullScreen;
+                            efs.call(el);
+                        }
+                        else{
+                            var rfs = elm.requestFullScreen || elm.webkitRequestFullScreen;
+                            rfs.call(elm);
+                        }
+                    });
+                }
+            }
+        },10);
 });
-
