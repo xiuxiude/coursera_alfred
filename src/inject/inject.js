@@ -43,6 +43,7 @@ $(document).on("click", "button.alfred", function (e) {
                             efs.call(el);
                         }
                         else{
+                            if(!$(this).parent().hasClass('mejs-unfullscreen')) return;
                             var rfs = elm.requestFullScreen || elm.webkitRequestFullScreen;
                             rfs.call(elm);
                         }
