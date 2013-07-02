@@ -12,12 +12,16 @@ chrome.extension.sendMessage({}, function(response) {
   }, 10);
 });
 
+/*
 var $weeklyLectures = $('.course-item-list-header');
 
 $weeklyLectures.find('h3')
 .append('<button class="alfred">download this week</button>');
+*/
 
-$(document).on("click", "button.alfred", function (e) {
+$(document)
+/*
+.on("click", "button.alfred", function (e) {
   var $header = $(this).closest('.course-item-list-header')
   e.stopPropagation();
   var $courses = $($header).next();
@@ -27,7 +31,9 @@ $(document).on("click", "button.alfred", function (e) {
       elem.click();
     }, index*1000);
   });
-}).on("click",".lecture-link",function(){
+})
+*/
+.on("click",".lecture-link",function(){
     var readyInterval = setInterval(
         function(){
             var $ifr = $('iframe');
