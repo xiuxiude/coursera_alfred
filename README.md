@@ -48,7 +48,7 @@ Ackownledgement
 ##Contributor
 
 * @seansay
-* @PerryPan
+* @plrthink
 * @shanzi
 * @xupeixiang
 
