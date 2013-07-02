@@ -15,6 +15,7 @@ Coursera Alfred is an all-in-one chrome extension for coursera.
 
 ##Todos
 
+* multi-download button for multi-downloading videos and/or slides
 * keyboard-shortcut customization
 * desktop notifcation of upcoming deadlines
 * auto sync courses calendar to third party calendar account
