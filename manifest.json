@@ -1,6 +1,6 @@
 {
   "name": "Coursera Alfred",
-  "version": "0.2.5",
+  "version": "0.2.8",
   "manifest_version": 2,
   "description": "Your Coursera Helper",
   "homepage_url": "http://www.xiuxiu.de/",
@@ -34,7 +34,7 @@
         "https://class.coursera.org/*/lecture/index"
       ],
       "js": [
-        "components/jquery/jquery.min.js", "src/inject/inject.js"
+        "bower_components/jquery/jquery.min.js", "src/inject/inject.js"
       ],
       "run_at": "document_end"
     }
