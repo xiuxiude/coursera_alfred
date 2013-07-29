@@ -6,7 +6,7 @@ app.controller('bgCtrl', function BgCtrl($scope, courseService, alfredStorage) {
   
   // update the data every 60 mintues
   var interval = 60;
-  chrome.alarms.create("scheduleRewquest", {periodInMinutes: interval});
+  chrome.alarms.create("scheduleRequest", {periodInMinutes: interval});
 
   chrome.alarms.onAlarm.addListener(function(alarm){
     if(alarm.name === "scheduleRequest"){

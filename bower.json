@@ -1,0 +1,12 @@
+{
+  "name": "coursera_alfred",
+  "version": "0.2.8",
+  "dependencies": {
+    "jquery": "~1.9.1",
+    "angular": "~1.0.5",
+    "bootstrap-assets": "~2.3.1",
+    "moment": "~2.0.0",
+    "q": "~0.9.6"
+  },
+  "devDependencies": {}
+}
