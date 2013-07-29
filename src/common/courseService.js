@@ -43,9 +43,10 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
     return deferred.promise;
   };
 
-  var getPages = function(courses){
+  var getActivePages = function(courses){
     var courses_promoises = courses.filter(function(item){
-      return item.courses[0].home_link;
+      var course = item.courses[0];
+      return course.home_link&&course.active;
     }).map(function(item){
       var deferred = Q.defer();
       item["class_link"] = item.courses[0].home_link;
@@ -138,7 +139,7 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
             getAllCourses
             )
             .then(
-            getPages
+            getActivePages
             )
             .then(function(pages){
               var events = getEvents(pages);
@@ -156,10 +157,10 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
       if(events){
         console.log("get data successfully");
         alfredStorage.setDeadlines(events.deadlines);
-        alfredStorage.removeExpiredDeadlines();
-        alfredStorage.unNew();
-        icon.updateIcon();
       }
+      alfredStorage.removeExpiredDeadlines();
+      alfredStorage.unNew();
+      icon.updateIcon();
     }, function(reason){
       console.log("failed", reason);
       switch (reason) {
