@@ -58,6 +58,10 @@ Use github to open a issue if you have any problem or feature request.
 
 Pull requests are welcome;)
 
+##Donate
+
+If you like it, you may want to [donate](https://me.alipay.com/caonima) to ours
+
 ##License
 
 Coursera Alfred is released under the [MIT License](http://opensource.org/licenses/MIT).
