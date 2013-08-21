@@ -158,7 +158,7 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
         console.log("get data successfully");
         alfredStorage.setDeadlines(events.deadlines);
       }
-      alfredStorage.removeExpiredDeadlines();
+      alfredStorage.removeExpiredDeadlinesInRemovedDeadlines();
       alfredStorage.unNew();
       icon.updateIcon();
     }, function(reason){
@@ -168,10 +168,10 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
         alfredStorage.signOut();
         break;
       case ERROR.REQUEST_FAILED:
+        alfredStorage.removeExpiredDeadlines();
         break;
       default:
       }
-      alfredStorage.removeExpiredDeadlines();
       alfredStorage.unNew();
       icon.updateIcon();
     });

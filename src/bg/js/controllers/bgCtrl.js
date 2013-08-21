@@ -10,14 +10,19 @@ app.controller('bgCtrl', function BgCtrl($scope, courseService, alfredStorage) {
 
   chrome.alarms.onAlarm.addListener(function(alarm){
     if(alarm.name === "scheduleRequest"){
-      courseService.updateData();
+      $scope.$apply(
+        courseService.updateData
+      );
     }
   });
 
   //update data when user enrolled a new course, un-enrolled a course, or user changed
   chrome.cookies.onChanged.addListener(function(info){
-    alfredStorage.reset()
-    courseService.updateData();
+    console.log("cookies is changed", info);
+    $scope.$apply(function(){
+      alfredStorage.reset();
+      courseService.updateData();
+    });
   })
 });
 

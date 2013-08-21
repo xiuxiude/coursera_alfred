@@ -22,7 +22,7 @@ app.factory('icon', function (alfredStorage) {
   var updateIcon = function(){
     var len = alfredStorage.getDeadlines().length - alfredStorage.getRemoved().length;
     if (!alfredStorage.isSignedIn()) {
-      setIcon(GRAY_ICON_PATH, GRAY_BACKGROUND_COLOR, NOT_SIGN_IN_TEXT)
+      setIcon(GRAY_ICON_PATH, GRAY_BACKGROUND_COLOR, NOT_SIGN_IN_TEXT);
     } else {
       chrome.browserAction.setBadgeText({
         text: len != "0" ? len.toString() : "" 
