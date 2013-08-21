@@ -1,6 +1,6 @@
 {
   "name": "coursera_alfred",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "dependencies": {
     "jquery": "~1.9.1",
     "angular": "~1.0.5",

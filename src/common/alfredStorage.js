@@ -7,6 +7,10 @@ app.factory('alfredStorage', function () {
   var USER_STORAGE_ID = "user_id";
   var IS_SIGNED_IN_STORAGE_ID = "sign_in";
 
+  var isNew = function(){
+    return JSON.parse(localStorage.getItem(IS_NEW_STORAGE_ID) || '1');
+  };
+
   var reNew = function(){
     localStorage.setItem(IS_NEW_STORAGE_ID, '1');
   };
@@ -18,23 +22,49 @@ app.factory('alfredStorage', function () {
   var getRemoved = function(){
     return JSON.parse(localStorage.getItem(REMOVED_STORAGE_ID) || '[]');
   };
-  var putRemoved = function(removedDeadlines){
+  var setRemoved = function(removedDeadlines){
     localStorage.setItem(REMOVED_STORAGE_ID, JSON.stringify(removedDeadlines));
   };
 
-  return {
-    getRemoved: getRemoved,
+  var getDeadlines = function(){
+    return JSON.parse(localStorage.getItem(DEADLINES_STORAGE_ID) || '[]');
+  };
 
-    putRemoved: putRemoved,
+  var setDeadlines = function(deadlines){
+    localStorage.setItem(DEADLINES_STORAGE_ID, JSON.stringify(deadlines));
+  };
+
+  var removeExpiredDeadlinesInRemovedDeadlines = function(){
+    var removedDeadlines = getRemoved().filter(function(removedDeadline){
+      return moment().isBefore(removedDeadline.time);
+    });
+    setRemoved(removedDeadlines);
+  };
+
+  var removeExpiredDeadlinesInDeadlines =  function(){
+    var deadlines = getDeadlines().filter(function(deadline){
+      return moment().isBefore(deadline.time);
+    });
+    setDeadlines(deadlines);
+  };
+
+  return {
+    isNew: isNew,
 
     reNew: reNew,
 
     unNew: unNew,
 
-    isNew: function(){
-      return JSON.parse(localStorage.getItem(IS_NEW_STORAGE_ID) || '1');
-    },
-    
+    getRemoved: getRemoved,
+
+    setRemoved: setRemoved,
+
+    getDeadlines: getDeadlines,
+
+    setDeadlines: setDeadlines,
+
+    removeExpiredDeadlinesInRemovedDeadlines: removeExpiredDeadlinesInRemovedDeadlines,
+
     getUserID: function(){
       return JSON.parse(localStorage.getItem(USER_STORAGE_ID) || '0');
     },
@@ -47,35 +77,24 @@ app.factory('alfredStorage', function () {
       localStorage.removeItem(IS_SIGNED_IN_STORAGE_ID);
       localStorage.removeItem(USER_STORAGE_ID);
       localStorage.setItem(DEADLINES_STORAGE_ID, '[]');
-      reNew();
+      localStorage.setItem(REMOVED_STORAGE_ID, '[]');
     },
     
-    getDeadlines: function(){
-      return JSON.parse(localStorage.getItem(DEADLINES_STORAGE_ID) || '[]');
-    },
-
     isSignedIn: function(){
       return JSON.parse(localStorage.getItem(IS_SIGNED_IN_STORAGE_ID) || '0');
     },
     
     signIn: function(){
       localStorage.setItem(IS_SIGNED_IN_STORAGE_ID, '1');
-    },
-    
+    }, 
+
     signOut: function(){
       localStorage.setItem(IS_SIGNED_IN_STORAGE_ID, '0');
-      putRemoved([]);
     },
-    
-    setDeadlines: function(deadlines){
-      localStorage.setItem(DEADLINES_STORAGE_ID, JSON.stringify(deadlines));
-    },
-    
+
     removeExpiredDeadlines: function(){
-      var removedDeadlines = getRemoved().filter(function(removedDeadline){
-        return moment().isBefore(removedDeadline.time);
-      });
-      putRemoved(removedDeadlines);
+      removeExpiredDeadlinesInRemovedDeadlines();
+      removeExpiredDeadlinesInDeadlines();
     }
-  };
+  }
 });

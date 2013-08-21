@@ -43,7 +43,14 @@
             </button>
           </div>
           
-          <div ng-show="displayDeadlines">  
+          <div ng-show="displayDeadlines"> 
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span>
+              <input 
+                type="text" id="appendedPrependedInput" ng-model="search.text" 
+                placeholder="Enter your course name"
+              /> 
+            </div> 
             <div class="tabbalbe">
               <ul class="nav nav-tabs" id="tabs">
                 <li class="active">
@@ -67,7 +74,7 @@
                 <ul class="unstyled deadline-list" ng-show="(deadlines | hide:removedDeadlines).length">
                   <li
                     class="deadline"
-                    ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' "
+                    ng-repeat="deadline in deadlines| hide:removedDeadlines | orderBy:'time' | filter:search.text"
                   >
                     <div class="row-fluid">
                       <div class="span12">
@@ -107,7 +114,7 @@
                 <ul class="unstyled deadline-list" ng-show="removedDeadlines.length">
                   <li
                     class="deadline"
-                    ng-repeat="deadline in removedDeadlines | orderBy:'time' "
+                    ng-repeat="deadline in removedDeadlines | orderBy:'time' | filter:search.text"
                   >
                     <div class="row-fluid">
                       <div class="span12">
@@ -163,8 +170,8 @@
   <script src="js/app.js"></script>
   <script src="js/controllers/appCtrl.js"></script>
   <script src="/src/common/alfredStorage.js"></script>
-  <script src="/src/common/courseService.js"></script>
   <script src="/src/common/icon.js"></script>
+  <script src="/src/common/courseService.js"></script>
   <script src="js/filters/fromNow.js"></script>
   <script src="js/filters/hide.js"></script>
   </div>
