@@ -100,18 +100,12 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
         var $deadline = $(deadline);
         var $deadlineItem = $deadline.find('time');
         
-        // use momentjs to parse the unstandard date format
-        var date = moment(
-          $deadlineItem.data("event-times").split('/')[1],
-          "YYYYMMDDTHHmmssZ"
-        );
-
         var object  = { 
           "html": $deadline.html(),
           "title": $deadlineItem.data("event-title"),
           "link": $deadlineItem.data("event-location"),
           "description": $deadlineItem.data("event-description"),
-          "time": date,
+          "time": $deadlineItem.data("event-times").split('/')[1],
           "course": {
             "name": item.name,
             "icon": item.small_icon
