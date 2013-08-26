@@ -1,7 +1,7 @@
 app.filter('from_now', function()
 {
-    return function(dateString)
+    return function(timeString)
     {
-        return moment(dateString).fromNow();
+        return  moment(timeString, "YYYYMMDDTHHmmssZ").fromNow();
     }
 });
