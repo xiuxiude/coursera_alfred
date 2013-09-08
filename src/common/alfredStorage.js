@@ -36,7 +36,8 @@ app.factory('alfredStorage', function () {
 
   var removeExpiredDeadlinesInRemovedDeadlines = function(){
     var removedDeadlines = getRemoved().filter(function(removedDeadline){
-      return moment().isBefore(removedDeadline.time);
+      var deadline_time = moment(removedDeadline.time, "YYYYMMDDTHHmmssZ");
+      return moment().isBefore(deadline_time);
     });
     setRemoved(removedDeadlines);
   };
