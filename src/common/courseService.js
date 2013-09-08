@@ -9,23 +9,27 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
   };
   
   var getUserId = function(){
-    var request = {url: 'https://www.coursera.org/*', name: 'maestro_user'};
+    var url = "https://www.coursera.org";
     var deferred = Q.defer();
     var user_id;
 
-    if(user_id = alfredStorage.getUserID() ) {
+    if(user_id = alfredStorage.getUserID()){
       deferred.resolve(user_id);
     } else {
-      chrome.cookies.get(request, function(cookie){
-        if(cookie){
-          var user_id = JSON.parse(decodeURIComponent(cookie.value)).id;
-          if(user_id){
-            alfredStorage.signIn();
-            alfredStorage.setUserID(user_id);
-            deferred.resolve(user_id);
-          }
+      $http.get(url).then(function(response){
+        var user_id_exspression;
+        var re = /"id": (\d+)/g;
+        if(user_id_exspression = re.exec(response.data)){
+          user_id = user_id_exspression[1];
+          alfredStorage.signIn();
+          alfredStorage.setUserID(user_id);
+          deferred.resolve(user_id);
+        } else{
+          alfredStorage.signOut();
+          deferred.reject(ERROR.NOT_LOGIN);
         }
-        deferred.reject(ERROR.NOT_LOGIN);
+      }, function(){
+        deferred.reject(ERROR.REQUEST_FAILED);
       });
     }
     return deferred.promise;
