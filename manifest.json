@@ -1,6 +1,6 @@
 {
   "name": "Coursera Alfred",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "manifest_version": 2,
   "description": "Your Coursera Helper",
   "homepage_url": "http://www.xiuxiu.de/",
@@ -25,8 +25,7 @@
     "notifications",
     "tabs",
     "geolocation",
-    "https://www.coursera.org/*",
-    "https://class.coursera.org/*"
+    "https://*.coursera.org/*"
   ],
   "content_scripts": [
     {
