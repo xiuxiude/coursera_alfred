@@ -24,7 +24,6 @@
     "cookies",
     "notifications",
     "tabs",
-    "geolocation",
     "https://*.coursera.org/*"
   ],
   "content_scripts": [
