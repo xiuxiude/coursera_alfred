@@ -17,10 +17,10 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
        deferred.resolve(user_id);
      } else {
       $http.get(url).then(function(response){
-        var user_id_exspression;
-        var re = /"id": (\d+)/g;
-        if(user_id_exspression = re.exec(response.data)){
-          user_id = user_id_exspression[1];
+        var user_id_expression;
+        var re = /\\u0022id\\u0022: (\d+)/g;
+        if(user_id_expression = re.exec(response.data)){
+          user_id = user_id_expression[1];
           alfredStorage.signIn();
           alfredStorage.setUserID(user_id);
           deferred.resolve(user_id);
