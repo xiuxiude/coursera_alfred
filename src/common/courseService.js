@@ -13,9 +13,9 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
     var deferred = Q.defer();
     var user_id; 
     
-    if(user_id = alfredStorage.getUserID()){
-      deferred.resolve(user_id);
-    } else {
+     if(user_id = alfredStorage.getUserID()){
+       deferred.resolve(user_id);
+     } else {
       $http.get(url).then(function(response){
         var user_id_exspression;
         var re = /"id": (\d+)/g;
