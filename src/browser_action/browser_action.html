@@ -65,7 +65,7 @@
               <div class="tab-pane active" id="todo">              
                 <div 
                   class="alert alert-success"
-                  ng-hide="(deadlines | hide:removedDeadlines).length"
+                  ng-hide="(deadlines | hide:removedDeadlines | filter:search.text).length"
                 >
                   <p>
                     You have no deadline left here;)
@@ -104,7 +104,7 @@
               <div class="tab-pane" id="finished">              
                 <div 
                   class="alert alert-success"
-                  ng-hide="removedDeadlines.length"
+                  ng-hide="(removedDeadlines | filter:search.text).length"
                 >
                   <p>
                     No results here;)

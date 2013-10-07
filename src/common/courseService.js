@@ -11,16 +11,16 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
   var getUserId = function(){
     var url = "https://www.coursera.org";
     var deferred = Q.defer();
-    var user_id;
-
-    if(user_id = alfredStorage.getUserID()){
-      deferred.resolve(user_id);
-    } else {
+    var user_id; 
+    
+     if(user_id = alfredStorage.getUserID()){
+       deferred.resolve(user_id);
+     } else {
       $http.get(url).then(function(response){
-        var user_id_exspression;
-        var re = /"id": (\d+)/g;
-        if(user_id_exspression = re.exec(response.data)){
-          user_id = user_id_exspression[1];
+        var user_id_expression;
+        var re = /\\u0022id\\u0022: (\d+)/g;
+        if(user_id_expression = re.exec(response.data)){
+          user_id = user_id_expression[1];
           alfredStorage.signIn();
           alfredStorage.setUserID(user_id);
           deferred.resolve(user_id);
@@ -173,9 +173,14 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
       alfredStorage.unNew();
       icon.updateIcon();
     });
-  }
+  };
+
+  var isSameDeadline = function(deadlineA, deadlineB){
+    return (deadlineA.html.length === deadlineB.html.length) && (deadlineA.html === deadlineB.html);
+  }; 
   
   return {
-    updateData: updateData
+    updateData: updateData,
+    isSameDeadline: isSameDeadline
   }
 });
