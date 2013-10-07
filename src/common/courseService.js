@@ -11,8 +11,7 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
   var getUserId = function(){
     var url = "https://www.coursera.org";
     var deferred = Q.defer();
-    var user_id;
-
+    
     if(user_id = alfredStorage.getUserID()){
       deferred.resolve(user_id);
     } else {
@@ -173,9 +172,14 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
       alfredStorage.unNew();
       icon.updateIcon();
     });
-  }
+  };
+
+  var isSameDeadline = function(deadlineA, deadlineB){
+    return (deadlineA.html.length === deadlineB.html.length) && (deadlineA.html === deadlineB.html);
+  }; 
   
   return {
-    updateData: updateData
+    updateData: updateData,
+    isSameDeadline: isSameDeadline
   }
 });

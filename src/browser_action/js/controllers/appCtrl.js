@@ -1,6 +1,6 @@
 /*global todomvc */
 'use strict';
-app.controller('appCtrl', function AlfredCtrl($scope, $filter, alfredStorage, courseService, icon){
+app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseService, icon){
   
   $scope.deadlines = alfredStorage.getDeadlines();
   
@@ -37,10 +37,11 @@ app.controller('appCtrl', function AlfredCtrl($scope, $filter, alfredStorage, co
   };
 
   $scope.restoreDeadline = function(deadline){
-    for (var i =0; i < removedDeadlines.length; i++)
-      if ((removedDeadlines[i].html.length === deadline.html.length) && (removedDeadlines[i].html === deadline.html)) {
+    for (var i =0; i < removedDeadlines.length; i++){
+      if (courseService.isEqual(deadline, removedDeadlines[i])) {
         removedDeadlines.splice(i,1);
         break;
+      }
     }
   };
 });
