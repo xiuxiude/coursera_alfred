@@ -38,7 +38,7 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
 
   $scope.restoreDeadline = function(deadline){
     for (var i =0; i < removedDeadlines.length; i++){
-      if (courseService.isEqual(deadline, removedDeadlines[i])) {
+      if (courseService.isSameDealine(deadline, removedDeadlines[i])) {
         removedDeadlines.splice(i,1);
         break;
       }

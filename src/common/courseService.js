@@ -11,6 +11,7 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
   var getUserId = function(){
     var url = "https://www.coursera.org";
     var deferred = Q.defer();
+    var user_id; 
     
     if(user_id = alfredStorage.getUserID()){
       deferred.resolve(user_id);
