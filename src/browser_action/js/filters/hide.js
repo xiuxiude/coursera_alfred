@@ -1,17 +1,11 @@
-app.filter('hide', function()
+app.filter('hide', function(courseService)
 {
     return function(deadlines, removedDeadlines)
     { 
-      var removedDeadlineHtmls = removedDeadlines.map(function(removedItem){
-        return removedItem.html;
-      });
-      
       return deadlines.filter(function(deadline){
-        var target = deadline.html;
         var result = false;
-        for(var i = 0; i < removedDeadlineHtmls.length; i++){
-         var removedItemHtml = removedDeadlineHtmls[i];
-         var temp = ((removedItemHtml.length === target.length) && (removedItemHtml === target));
+        for(var i = 0; i < removedDeadlines.length; i++){
+         var temp = courseService.isSameDeadline(deadline, removedDeadlines[i]);
          result = result || temp;
          if(result){
           break;
