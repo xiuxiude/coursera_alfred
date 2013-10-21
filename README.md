@@ -1,3 +1,4 @@
+* [@kaesire](https://github.com/kaesire)
 ##Coursera Alfred 
 everything occurs here are still changing along with development, so please often get back to get the latest info.
 
@@ -49,6 +50,7 @@ Ackownledgement
 * [@plrthink](https://github.com/plrthink)
 * [@shanzi](https://github.com/shanzi)
 * [@xupeixiang](https://github.com/xupeixiang)
+* [@kaesire](https://github.com/kaesire)
 
 ##Feedback
 
