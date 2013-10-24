@@ -1,4 +1,3 @@
-* [@kaesire](https://github.com/kaesire)
 ##Coursera Alfred 
 everything occurs here are still changing along with development, so please often get back to get the latest info.
 
