@@ -49,6 +49,7 @@ Ackownledgement
 * [@plrthink](https://github.com/plrthink)
 * [@shanzi](https://github.com/shanzi)
 * [@xupeixiang](https://github.com/xupeixiang)
+* [@kaesire](https://github.com/kaesire)
 
 ##Feedback
 
