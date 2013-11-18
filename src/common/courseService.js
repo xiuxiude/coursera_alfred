@@ -154,7 +154,10 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
     getCourses().then(function(events){
       if(events){
         console.log("get data successfully");
-        alfredStorage.setDeadlines(events.deadlines);
+        var deadlines = events.deadlines;
+        var removedDeadlines = discard(alfredStorage.getRemoved(), deadlines);
+        alfredStorage.setRemoved(removedDeadlines);
+        alfredStorage.setDeadlines(deadlines);
       }
       alfredStorage.removeExpiredDeadlinesInRemovedDeadlines();
       alfredStorage.unNew();
@@ -176,9 +179,22 @@ app.factory('courseService', function ($http, alfredStorage, icon) {
   };
 
   var isSameDeadline = function(deadlineA, deadlineB){
-    return (deadlineA.html.length === deadlineB.html.length) && (deadlineA.html === deadlineB.html);
+    return (deadlineA.title.length === deadlineB.title.length) && (deadlineA.title === deadlineB.title);
   }; 
-  
+
+  // discard deadlines of deadlinesA which are not in deadlinesB to promise that deadlinesB contains deadlinesA.
+  var discard = function(deadlinesA, deadlinesB){
+    return deadlinesA.filter(function(deadlineA){
+      var result = false;
+      for(var i = 0; i < deadlinesB.length; i++){
+        var temp = isSameDeadline(deadlineA, deadlinesB[i]);
+        result = result || temp;
+        if(result) break;
+      }
+      return result;
+    });
+  };
+
   return {
     updateData: updateData,
     isSameDeadline: isSameDeadline
