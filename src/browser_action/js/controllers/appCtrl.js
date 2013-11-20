@@ -6,11 +6,11 @@ app.controller('appCtrl', function AlfredCtrl($scope, alfredStorage, courseServi
   
   var isNew = alfredStorage.isNew();
   var isSignedIn = alfredStorage.isSignedIn();
-  var isOnLine = navigator.onLine;
+  // var isOnLine = navigator.onLine;
   
   $scope.displayLoading = isSignedIn && isNew && isOnLine;
   $scope.displaySignIn = !isSignedIn && isOnLine;
-  $scope.displayOffline = !isOnLine;
+  // $scope.displayOffline = !isOnLine;
   $scope.displayDeadlines = !isNew && isSignedIn;
 
   var removedDeadlines = $scope.removedDeadlines = alfredStorage.getRemoved();

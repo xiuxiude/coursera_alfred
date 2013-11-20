@@ -30,12 +30,14 @@
               <div class="bar" style="width: 40%;"></div>
             </div>
           </div>
+          <!--
           <div class="alert alert-info" ng-show="displayOffline">
             <button class="close" data-dismiss="alert">&times;</button>
             <p>
               It seems you are offline, you'd better connect to the network for latest news.  
             </p>
           </div>
+          -->
           
           <div ng-show="displaySignIn">
             <button class="btn btn-large btn-block btn-link signIn" type="button" ng-click="signIn()">
@@ -61,7 +63,7 @@
                 </li>
               </ul>
             </div>                            
-            <div class="tab-content">
+            <div class="tab-content deadline-space">
               <div class="tab-pane active" id="todo">              
                 <div 
                   class="alert alert-success"
