@@ -22,7 +22,7 @@ app.controller('bgCtrl', function BgCtrl($scope, $timeout, courseService, alfred
   chrome.cookies.onChanged.addListener(function(info){
     console.log("cookies is changed", info);
     $scope.$apply(function(){
-      // if and only if when cookie responsible for user was deleted reset the whole local storageif(info.cookie.name == "CAUTH" && info.removed == true)
+      // if and only if when cookie responsible for user was deleted, reset the whole local storage
       if(info.cookie.name === "CAUTH" && info.removed === true)
         alfredStorage.reset();
       // wait a second for coursera responding to user's action
