@@ -59,7 +59,7 @@ Pull requests are welcome;)
 
 ##Donate
 
-If you like it, you may want to [donate](https://me.alipay.com/caonima) to ours
+If you like it, you may want to donate by alipay(iseansay@gmail.com) or [gratipay](https://gratipay.com/seansay/) to us.
 
 ##License
 
