@@ -1,4 +1,6 @@
-##Coursera Alfred 
+#Deprecated
+
+##Coursera Alfred
 everything occurs here are still changing along with development, so please often get back to get the latest info.
 
 ##What is this
@@ -37,7 +39,7 @@ Ackownledgement
 
 * Here are three main folders in `./src`.There are `bg`, `browser_action` and `inject`.
 
-* `bg` stands for background page, which is always running at backgroud. We use it to fetch data from coursera, parse data and then store parsed data at localStorage.
+* `bg` stands for background page, which is always running at backgroud. We use it to fetch data from coursera, parse data and then store parsed data in localStorage.
 
 * `browser_action` is the popup window when you click the extension icon, which fetch the data from localStorage .
 
